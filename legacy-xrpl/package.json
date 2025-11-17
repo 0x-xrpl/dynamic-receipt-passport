@@ -1,0 +1,13 @@
+{
+  "name": "xrpl-hackathon-base",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "xrpltest": "node scripts/xrpl-test.js",
+    "send:xrp": "node scripts/send-xrp.js",
+    "check:tx": "node scripts/check-tx.js"
+  },
+  "dependencies": {
+    "xrpl": "^4.0.0"
+  }
+}
