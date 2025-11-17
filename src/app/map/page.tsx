@@ -5,7 +5,7 @@ import { AppShell } from "@/components/drp/app-shell";
 import { useXrpStores } from "@/lib/hooks";
 import { Badge } from "@/components/ui/badge";
 
-// 🚨 ここだけ修正：SSR を無効化した MapCanvas
+// マップは SSR を完全に OFF にしないと絶対に落ちる
 const MapCanvas = dynamic(
   () => import("@/components/drp/map-canvas"),
   { ssr: false }
@@ -20,6 +20,7 @@ export default function MapPage() {
       contextLabel="Residency map"
     >
       <div className="space-y-4">
+        {/* ★ SSR OFF の安全なマップ */}
         <MapCanvas pins={pins} height={500} />
 
         <div className="rounded-[1.7rem] border border-white/12 bg-white/5 p-4 text-[0.6rem] uppercase tracking-[0.35em] text-white/55">
@@ -43,7 +44,6 @@ export default function MapPage() {
                 <p className="uppercase tracking-[0.3em]">{pin.name}</p>
                 <p className="text-[0.55rem] text-white/50">{pin.city}</p>
               </div>
-
               <p className="text-[0.55rem] text-white/60">
                 {pin.stampBenefit ?? pin.description}
               </p>
