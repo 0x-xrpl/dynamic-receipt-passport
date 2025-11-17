@@ -1,313 +1,516 @@
-🏆 Dynamic Receipt Passport（DRP）
-XRPL × AI Hackathon
+# Dynamic Receipt Passport (DRP)
 
-この README は、以下すべてを 1 つにまとめた “README” です：
 
-🟦 XRPL Testnet 操作用の Node.js 基礎スクリプト（ウォレット生成・送金・TX確認）
+XRPL × AI Hackathon OSAKA 2025 
 
-🟪 DRP アプリ本体の要件定義（Next.js + XRPL + AI + Dynamic NFT）
 
-🟥 Claude Code / GitHub / Vercel にそのまま貼れる構成
+Dynamic Receipt Passport（以下 DRP）は、XRP が利用できる世界中の都市での「レシート・スタンプ・旅の軌跡・会計データ」を、1 枚の Dynamic NFT パスポートに統合して管理することを目的とした Web アプリケーションです。
 
-0. 📌 プロジェクト概要（High-level Summary）
-プロジェクト名：Dynamic Receipt Passport（DRP）
-一文コンセプト（グローバル版）
 
-XRP が使える世界中の街での 買い物・旅・スタンプ・会計記録 を
-1 枚の Dynamic NFT パスポート に統合するアプリ。
+- プロジェクトの背景とコンセプト
 
-XRPL Commons Residency in Paris を スターターケース としつつ、
-「パリ → 東京 → 大阪 → ロンドン → NYC」へ広がる世界的 XRPL 標準を目指す。
+- 想定ユーザーとユースケース
 
-1. ❓ WHY（作る理由）
-1-1. 海外生活の「支出のカオス」を解決する
+- 機能仕様と画面構成
 
-紙レシートが破れる、紛失する、薄くなる
+- XRPL 連携の設計方針
 
-仕事の経費と個人支出が混ざって管理不能
+- 実装技術とセットアップ手順
 
-スタンプカードが国・店舗ごとにバラバラ
+- 今後の拡張計画（Deep/Main Track への発展を含む）
 
-行った場所の “軌跡” がマップに残らない
 
-➡ DRP はこれらをすべて 1 枚の NFT パスポートで管理できる。
+---
 
-1-2. パリ Residency を起点にする戦略的理由
 
-Hackathon Osaka の賞に「XRPL Commons パリ3ヶ月」がある
+## 0. プロジェクト概要
 
-審査員の頭に “パリ滞在” という明確な文脈が存在する
 
-➡ 「パリで実際に使える」＋「世界へ拡張できる」
-という設計が最も響く。
+- プロジェクト名: Dynamic Receipt Passport (DRP)
 
-1-3. レシートを “価値あるデジタル資産” へ変換
+- テーマ: 「レシート・スタンプ・マップ・会計」の統合パスポート
 
-従来：捨てる紙
-未来：旅・購買履歴・ロイヤリティのすべてが刻まれた Dynamic NFT
+- 対象トラック: Beginner Track（XRPL Testnet を用いた入門者向けプロダクト）
 
-1-4. 店舗と XRPL コミュニティにとってもメリット大
+- 使用技術:
 
-XRP 決済店として自動マップ掲載
+  - Next.js 14 (App Router) / TypeScript
 
-スタンプカードを NFT 内ページとして統合
+  - Tailwind CSS
 
-リピーター創出が自動化
+  - XRPL JavaScript SDK（Testnet）
 
-➡ ユーザー／店舗／XRPL の三方よし。
+  - Node.js ベースの簡易 XRPL スクリプト
 
-2. 🎯 ターゲットユーザー & 利用シーン
-2-1. ユーザータイプ
+  - localStorage によるクライアントサイド保存
 
-Paris Residency 参加者
 
-海外旅行者
+DRP は、XRPL Commons Residency in Paris をスターターケースとしつつ、将来的には Paris / Tokyo / Osaka / London / New York など、XRPL 決済が利用可能な世界中の都市へ拡張することを前提に設計しています。
 
-出張ユーザー
 
-XRP 決済対応店の利用者
+---
 
-2-2. 「パリでの3ヶ月」を想定した例
 
-毎日の食事・移動・買い物を DRP に記録
+## 1. プロジェクトの背景と目的（WHY）
 
-マップで自分の生活圏が可視化
 
-帰国後に CSV/PDF で経費提出
+### 1-1. 解決したい課題
 
-NFT パスポートで滞在の全履歴が見える
 
-2-3. パリ → 世界拡張
+海外生活や長期滞在において、以下のような課題が繰り返し発生します。
 
-Paris
 
-Tokyo
+- 紙レシートが破れる・紛失する・文字が薄くなってしまう
 
-Osaka
+- 仕事の経費とプライベートの支出が混在し、整理に時間がかかる
 
-London
+- スタンプカードが店舗ごと・国ごとにばらばらに増えていく
 
-NYC
+- 「どこで・何をしたか」という軌跡が、後から振り返りにくい
 
-Singapore / Lisbon ...
 
-➡ 都市追加は OpenStreetMap の Layer を増やすだけで実装可能。
+DRP は、これらを XRPL と Dynamic NFT の組み合わせで解決しようとする試みです。
 
-3. 🧠 コアコンセプト
-✔ Dynamic Receipt Passport（DRP）とは？
 
-購入記録
+### 1-2. パリ Residency を起点にする理由
 
-スタンプカード
 
-マップ
+XRPL Hackathon OSAKA 2025 では、XRPL Commons によるパリ 3 ヶ月のプログラムが大きな一つのゴールになっています。
 
-会計データ
-→ すべてが 1 枚の Dynamic NFT に統合され、成長していく “パスポート”
 
-4. 🔧 機能仕様（詳細）
-4-1. 購入記録 & XRPL アンカー
+- 審査員や関係者にとって「パリでの生活」という具体的なイメージが共有されている
 
-記録データ例：
+- パリは、レシートと税務処理のルールが複雑で、記録・整理のニーズが強い
 
-店名
+- XRPL Commons Residency 参加者は、日常的に XRP 決済スポットを利用する可能性が高い
 
-金額
 
-VAT
+そのため、本プロジェクトでは「パリで実際に使える」ことを起点にしつつ、他都市への展開を前提とした設計を行っています。
 
-カテゴリ
 
-位置情報
+### 1-3. レシートを「成長する NFT」へ変換する
 
-タイムスタンプ
 
-XRPL 書き込み（Beginner Trackで重要）：
+従来は捨ててしまうだけの紙レシートを、次のような価値へ変換します。
 
-Payment / Memo に購入 ID を書き込む
 
-ページ上で TX Hash を確認
+- 旅の履歴としての記録
 
-4-2. Dynamic NFT（成長ロジック）
+- 会計・税務処理に使えるデータ
 
-NFT 内のメタデータ：
+- 店舗とのロイヤリティ・スタンプ情報
 
-totalPurchases
+- XRPL 上のトランザクションとの紐づけ
 
-totalAmount
 
-visitedCities
+これらを 1 枚の Dynamic NFT のメタデータとして蓄積していくことにより、「使えば使うほど育っていくパスポート」として設計しています。
 
-visitedStores
 
-stampCount
+---
 
-NFT が自動成長していく：
 
-購入件数：レベルアップ
+## 2. 想定ユーザーとユースケース
 
-都市数：パスポート背景に世界地図模様
 
-店舗スタンプ：アイコン追加
+### 2-1. 想定ユーザー
 
-（MVP ではローカル計算で OK、将来 XRPL 書き込み可能）
 
-4-3. スタンプカード
+- XRPL Commons Residency in Paris 参加者
 
-店舗単位：
+- 海外旅行者（短期〜中長期滞在）
 
-visits
+- 出張で海外を訪れるビジネスパーソン
 
-stampCount
+- XRP 決済対応店舗の利用者
 
-達成すると UI が発光・色変化
 
-NFT の「ページ」として統合。
+### 2-2. 代表的な利用シナリオ（パリ 3 ヶ月滞在）
 
-4-4. マップ（Leaflet.js）
 
-ピン表示：
+1. 日々の飲食・移動・ショッピングのレシートを DRP に記録する  
 
-自分の購入履歴 → 青
+2. 地図上で、自分の生活圏や訪問スポットが可視化される  
 
-XRPL 決済店 → 緑
+3. 月末や帰国時に、CSV/PDF で会計データをエクスポートし、経費精算や確定申告に利用する  
 
-ピンをタップすると詳細パネル表示。
+4. Dynamic NFT パスポート上で、自分の滞在履歴や訪問都市数などが「成長」として視覚化される  
 
-4-5. AI 分類・集計
 
-店名やメモからカテゴリ推定
+### 2-3. 世界への展開
 
-VAT（国ごとに推定）
 
-支出の円グラフ・棒グラフ生成
+都市情報をレイヤーとして管理することで、以下のような展開を想定しています。
 
-（Claude/OpenAI API を追加で使える設計）
 
-4-6. Export（会計提出用）
+- Paris
 
-CSV 出力：
+- Tokyo
 
-Date / Store / Category / Amount / VAT / TX Hash / City …
+- Osaka
 
-PDF 出力：
+- London
 
-window.print() + Print CSS
+- New York
 
-4-7. 通知
+- その他 XRPL 決済スポットの多い都市
 
-スタンプ達成
 
-新店舗訪問
+都市の追加は、Map レイヤーと設定の追加で対応できるよう設計を行っています。
 
-返品期限通知（任意）
 
-MVP は Toast ベースで十分。
+---
 
-5. 🖥 画面構成（UI）
 
-Home / Timeline
+## 3. 機能概要
 
-Add Purchase
 
-Passport（Dynamic NFT）
+本プロジェクトは、以下の機能群で構成されています。
 
-Map
 
-Export
+1. 購入記録の登録・閲覧（タイムライン表示）
 
-Settings
+2. 店舗ごとのスタンプカード（簡易ロイヤリティ）
 
-6. 🏗 技術構成（Next.js / XRPL）
-Framework
+3. Dynamic NFT パスポートビュー
 
-Next.js 14（App Router）
+4. マップ表示（購入履歴と XRPL 決済スポット）
 
-TypeScript
+5. 会計用エクスポート（CSV / 印刷ビュー）
 
-Tailwind CSS
+6. XRPL Testnet との連携（TX Hash 表示、将来的な NFT 連携を想定）
 
-XRPL JS SDK（Testnet）
 
-State
+それぞれの詳細は以下の通りです。
 
-Zustand または React Context
 
-Storage
+### 3-1. 購入記録と XRPL アンカー
 
-MVP：localStorage
 
-将来：Supabase / SQLite / API Routes
+登録データ例:
 
-Beginner Track 得点ポイント
 
-Testnet ウォレット発行
+- 店名  
 
-NFT ミント（1 回）
+- 金額  
 
-購入ごとに XRPL 書き込み（Memo）
+- VAT（消費税相当）  
 
-TX Hash を UI で表示
+- カテゴリ（飲食・交通・宿泊など）  
 
-7. 🎤 デモ台本（2分30秒）
+- 位置情報（任意）
 
-0:00 — 導入
-「DRP は世界中で使えるレシートパスポートです。」
+- タイムスタンプ  
 
-0:30 — 問題提起
-「レシート紛失・経費混在・スタンプ散乱 — 全部バラバラ。」
+- XRPL のトランザクションハッシュ（Testnet）
 
-1:00 — 解決策
-「Dynamic NFT × マップ × 会計 × XRPL × AI で統合管理します。」
 
-1:30 — デモ
+Beginner Track の観点からは、
 
-購入追加 → AIカテゴリ化
 
-XRPL書き込み & TX Hash表示
+- XRPL Testnet を利用した送金・メモ書き込み
 
-マップで軌跡表示
+- TX Hash を画面上で確認できる
 
-スタンプ増加 → NFTレベルアップ
 
-CSV/PDF エクスポート
+といった「XRPL の基本的な利用」を丁寧に実装することを目標としています。
 
-2:30 — まとめ
-「パリから始まり、世界の XRPL都市へ拡大します。」
 
-8. 💬 Claude Code 用・最初の一文（英語）
-You are an expert XRPL + AI full-stack engineer.
-Please implement the following “Dynamic Receipt Passport (DRP)” app
-using Next.js (TypeScript) + Tailwind CSS + xrpl.js on Testnet.
-Follow all functional requirements strictly.
-If something is ambiguous, choose the simplest option that still looks good for a demo.
+### 3-2. Dynamic NFT（成長ロジック）
 
-9. 🟦 付録：XRPL 基礎 Node.js プロジェクト
-xrpl-hackathon-base/
-├── package.json
-├── README.md
-└── scripts/
-    ├── xrpl-core.js
-    ├── xrpl-test.js
-    ├── send-xrp.js
-    └── check-tx.js
 
-🚀 インストール
+NFT のメタデータとして、次のような値を想定しています。
+
+
+- totalPurchases（購入件数）
+
+- totalAmount（総額）
+
+- visitedCities（訪問都市数）
+
+- visitedStores（訪問店舗数）
+
+- stampCount（スタンプ合計数）
+
+
+MVP 段階ではローカルでの計算・表示にとどめ、今後 XRPL 上の NFT メタデータとして同期する方向性を見据えています。
+
+
+### 3-3. スタンプカード
+
+
+店舗単位で、簡易的なスタンプカード機能を実装します。
+
+
+- 店舗ごとに stampCount をカウント
+
+- 一定数に達した場合、UI 上でわかりやすく達成を表示
+
+- 将来的には、店舗側が NFT 内ページとして独自デザインを提供できる形を想定
+
+
+### 3-4. マップ
+
+
+Leaflet.js（または Next.js で扱いやすいマップライブラリ）を利用し、地図上で以下を表示します。
+
+
+- 自身の購入履歴 → 青系ピン
+
+- XRPL 決済対応店舗 → 別色ピン（将来的に外部データソースと連携）
+
+
+ピンをクリックすると購入詳細や店舗情報が表示されます。
+
+
+### 3-5. AI による分類・レポート
+
+
+- 店名やメモから、支出カテゴリを推定
+
+- VAT の推定や、簡単な会計レポート（円グラフ・棒グラフ）を生成
+
+- Claude / OpenAI API などの利用を想定したアーキテクチャとしています
+
+
+### 3-6. エクスポート機能
+
+
+- CSV 形式でエクスポート（Date / Store / Category / Amount / VAT / TX Hash / City など）
+
+- 印刷ビュー用の画面を用意し、ブラウザの印刷機能から PDF 出力が可能
+
+
+---
+
+
+## 4. 画面構成
+
+
+想定している主要画面は以下の通りです。
+
+
+- Home / Timeline  
+
+  登録済みの購入履歴と、簡易ダッシュボードを表示
+
+- Add Purchase  
+
+  新しい購入情報の登録フォーム
+
+- Passport  
+
+  Dynamic NFT パスポートビュー。成長の可視化を行う
+
+- Map  
+
+  購入スポットと XRPL 決済スポットを表示
+
+- Export  
+
+  日付範囲を指定した集計・CSV 出力・印刷ビュー
+
+- Settings  
+
+  通貨単位、言語、XRPL 接続設定など（MVP では一部のみ）
+
+
+---
+
+
+## 5. 技術構成
+
+
+### 5-1. フロントエンド
+
+
+- Next.js 14（App Router）
+
+- TypeScript
+
+- Tailwind CSS
+
+- 状態管理: React Context または Zustand
+
+- 保存: localStorage（MVP）
+
+
+### 5-2. XRPL 連携
+
+
+- XRPL JavaScript SDK（xrpl.js）
+
+- Testnet を利用した以下の機能
+
+  - ウォレット生成
+
+  - テスト送金
+
+  - トランザクションの取得
+
+- 購入 ID を XRPL の Memo に埋め込む設計（MVP では一部をサンプル実装）
+
+
+### 5-3. Node.js スクリプト（補助）
+
+
+リポジトリ内に、XRPL の基本操作を行うための Node.js スクリプト群を用意します。
+
+
+- ウォレット生成  
+
+- テスト送金  
+
+- トランザクション確認  
+
+
+これらは、Hackathon 参加者が XRPL Testnet に慣れるための「最小限のサンプル」として位置づけています。
+
+
+---
+
+
+## 6. セットアップ手順
+
+
+以下はローカル環境での起動手順です。
+
+
+### 6-1. 前提条件
+
+
+- Node.js 18 以降
+
+- npm または yarn
+
+- Git
+
+
+### 6-2. ソースコード取得
+
+
+'''bash
+
+git clone https://github.com/0x-xrpl/dynamic-receipt-passport.git
+
+cd dynamic-receipt-passport
+
+
+6-3. 依存関係のインストール
+
+
 npm install
 
-① ウォレット生成
-npm run xrpltest
 
-② 10 XRP 送金
-npm run send:xrp
-
-③ 取引確認
-npm run check:tx -- <TX_HASH>
-
-10. 🟥 付録：DRP Core Helpers（drp-core.js）
-createEmptyPassport(ownerWallet, favoriteCity?)
-addPurchaseToPassport(passport, purchase)
-computeLevel(passport)
+6-4. 開発サーバーの起動
 
 
-Next.js API Routes から再利用可能。
+以下のコマンドでローカル開発環境を起動できます。
+
+
+npm run dev
+
+
+ブラウザで http://localhost:3000 を開くと、DRP の画面を確認できます。
+
+開発中はこのローカル環境で UI、XRPL 連携、NFT 表示などの機能をそのまま動作確認できます。
+
+
+
+---
+
+
+## 7. 公開（Vercel を利用することを想定）  
+
+
+DRP は Next.js を基盤としているため、ローカル開発環境（npm run dev）でも本番同様の挙動を確認できます。  
+
+
+最終的な公開については、  
+
+Next.js プロジェクトの標準的な公開方法として Vercel を利用することを想定しています。  
+
+（他のホスティングサービスでも同等の構成で動作します）  
+
+
+Vercel を利用した公開手順  
+
+
+- GitHub アカウントを Vercel と連携する  
+
+- このリポジトリを Vercel 上でインポートする  
+
+- インポート後、自動的にビルドとデプロイが実行される  
+
+- 完了後に公開 URL が発行される  
+
+
+Next.js の標準設定のままで問題なく動作するため、特別な設定は必要ありません。  
+
+
+---
+
+
+## 8. ディレクトリ構成（例）  
+
+
+dynamic-receipt-passport/  
+
+  ├── legacy-xrpl/        # XRPL Node.js 基礎スクリプト（サンプル）  
+
+  ├── public/             # 画像・アイコンなどの静的ファイル  
+
+  ├── src/  
+
+  │   ├── app/            # Next.js App Router 用エントリ  
+
+  │   ├── components/     # UI コンポーネント  
+
+  │   ├── lib/            # XRPL ラッパー、AI ヘルパーなど  
+
+  │   └── styles/         # Tailwind / グローバルスタイル  
+
+  ├── package.json  
+
+  ├── tsconfig.json  
+
+  ├── next.config.ts  
+
+  └── README.md           # 本ファイル  
+
+
+---
+
+
+## 9. 今後の拡張と他トラックへの発展可能性 
+
+
+本プロジェクトは今回 Beginner Track 向けに、以下を優先して実装しています。  
+
+
+XRPL Testnet を使った基本的な送金・トランザクション確認 
+
+
+レシート・スタンプ・マップ・会計データの統合 UI  
+
+Dynamic NFT パスポートという概念のプロトタイプ  
+
+今後、以下のような拡張により、Deep Track / Main Track レベルへの発展が可能だと考えています。
+
+
+XRPL NFT 機能との直接連携（メタデータの同期）  
+
+AMM や Hooks を用いたロイヤリティ・ポイント処理の自動化 
+
+
+店舗側ダッシュボードの実装（スタンプ設計・キャンペーン設定） 
+
+
+複数チェーン・複数通貨への対応  
+
+
+---
+
+
+## 10. ライセンス  
+
+検討中（ハッカソン終了後に OSS 化も視野に入れて検討します）
