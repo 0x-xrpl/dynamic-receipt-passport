@@ -1,12 +1,56 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
+import { useEffect, useState } from "react";
 import type { StorePin } from "@/lib/mockData";
+
+type LeafletComponents = {
+  MapContainer: typeof import("react-leaflet").MapContainer;
+  TileLayer: typeof import("react-leaflet").TileLayer;
+  CircleMarker: typeof import("react-leaflet").CircleMarker;
+  Popup: typeof import("react-leaflet").Popup;
+};
 
 const parisPosition: [number, number] = [48.8566, 2.3522];
 
 export function MapCanvas({ pins, height = 320 }: { pins: StorePin[]; height?: number }) {
+  const [leafletComponents, setLeafletComponents] = useState<LeafletComponents | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadLeaflet = async () => {
+      const module = await import("react-leaflet");
+      if (mounted) {
+        setLeafletComponents({
+          MapContainer: module.MapContainer,
+          TileLayer: module.TileLayer,
+          CircleMarker: module.CircleMarker,
+          Popup: module.Popup,
+        });
+      }
+    };
+
+    loadLeaflet();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (!leafletComponents) {
+    return (
+      <div
+        className="relative flex h-[320px] w-full items-center justify-center overflow-hidden rounded-[1.5rem] border border-white/25 bg-gradient-to-br from-[#f7f9ff]/90 via-[#eef2ff]/95 to-[#dee7ff]/90 p-3 text-xs uppercase tracking-[0.3em] text-slate-500 shadow-[0_30px_80px_rgba(12,18,43,0.35)]"
+        style={{ height }}
+      >
+        Loading residency map...
+      </div>
+    );
+  }
+
+  const { MapContainer, TileLayer, CircleMarker, Popup } = leafletComponents;
+
   return (
     <div className="relative overflow-hidden rounded-[1.5rem] border border-white/25 bg-gradient-to-br from-[#f7f9ff]/90 via-[#eef2ff]/95 to-[#dee7ff]/90 p-3 shadow-[0_30px_80px_rgba(12,18,43,0.35)]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_55%_10%,rgba(150,182,255,0.35),transparent_65%)]" />

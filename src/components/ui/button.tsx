@@ -47,10 +47,15 @@ export function Button({
     className,
   );
 
-  if (asChild && isValidElement(children)) {
-    return cloneElement(children as ReactElement, {
-      className: cn(children.props.className, composed),
+  if (asChild) {
+    if (!isValidElement(children)) {
+      throw new Error("Button with asChild requires a valid React element child.");
+    }
+
+    const child = children as ReactElement<any>;
+    return cloneElement(child, {
       ...props,
+      className: cn(child.props.className, composed),
     });
   }
 
