@@ -6,6 +6,7 @@ import { Progress } from "../ui/progress";
 
 type PassportCardProps = {
   stats: PassportStats;
+  totalSpendOverride?: number;
 };
 
 const metricMap = [
@@ -15,7 +16,10 @@ const metricMap = [
   { key: "storesCount", label: "Stores" },
 ];
 
-export function PassportCard({ stats }: PassportCardProps) {
+export function PassportCard({ stats, totalSpendOverride }: PassportCardProps) {
+  const walletDisplay = shortenHash(stats.wallet, 8, 6);
+  const walletExplorerUrl = `https://testnet.xrpl.org/transactions/${stats.wallet}`;
+
   return (
     <div className="shine relative overflow-hidden rounded-[1.5rem] border border-white/15 bg-gradient-to-br from-[#140f24]/85 via-[#090c1f]/90 to-[#09162c]/85 p-5 text-white shadow-[0_24px_60px_rgba(4,6,16,0.7)] sm:p-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.15),transparent_45%)]" />
@@ -29,13 +33,21 @@ export function PassportCard({ stats }: PassportCardProps) {
           <h2 className="mt-1.5 text-[clamp(1.8rem,3vw,2.45rem)] font-semibold leading-tight tracking-tight text-white">
             {stats.owner}
           </h2>
-          <div className="mt-3 flex w-full items-center gap-3 rounded-full border border-white/14 bg-white/5 px-5 py-1.5 text-white/80 sm:py-2">
-            <span className="text-[0.44rem] font-semibold uppercase tracking-[0.32em] text-white/60">
-              Wallet hash
-            </span>
-            <span className="ml-auto text-right text-[0.64rem] font-mono font-semibold tracking-[0.28em] text-white">
-              {shortenHash(stats.wallet, 8, 6)}
-            </span>
+          <div className="mt-3 rounded-[1.35rem] border border-white/14 bg-white/5 px-4 py-2 sm:px-5 sm:py-2.5">
+            <div className="flex flex-wrap items-center gap-3 text-left">
+              <span className="text-[0.44rem] font-semibold uppercase tracking-[0.32em] text-white/60">
+                Wallet hash
+              </span>
+              <a
+                href={walletExplorerUrl}
+                target="_blank"
+                rel="noreferrer"
+                title={stats.wallet}
+                className="ml-auto min-w-[8ch] select-text text-right text-[0.7rem] font-mono font-semibold tracking-[0.3em] text-white transition hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40"
+              >
+                {walletDisplay}
+              </a>
+            </div>
           </div>
         </div>
         <div>
@@ -47,7 +59,11 @@ export function PassportCard({ stats }: PassportCardProps) {
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {metricMap.map((metric) => {
-            const value = stats[metric.key as keyof PassportStats];
+            const rawValue = stats[metric.key as keyof PassportStats];
+            const value =
+              metric.key === "totalSpend" && typeof totalSpendOverride === "number"
+                ? totalSpendOverride
+                : rawValue;
             const formatted =
               typeof value === "number" && metric.key.includes("total")
                 ? formatCurrency(value as number)

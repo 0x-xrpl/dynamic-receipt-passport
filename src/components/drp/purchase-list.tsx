@@ -1,6 +1,7 @@
 import type { Purchase } from "@/lib/mockData";
 import { formatCurrency, shortenHash } from "@/lib/utils";
 import { Waves } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export function PurchaseList({ purchases }: { purchases: Purchase[] }) {
   return (
@@ -44,11 +45,32 @@ export function PurchaseList({ purchases }: { purchases: Purchase[] }) {
           <div className="rounded-xl border border-white/10 bg-white/10 px-3.5 py-2.5 text-[0.78rem] font-medium leading-relaxed text-white/80">
             {purchase.memo}
           </div>
-          <div className="flex items-center justify-between rounded-[0.9rem] border border-white/20 bg-white/10 px-3 py-1 text-[0.52rem] font-semibold uppercase tracking-[0.24em] text-white/70 shadow-[0_12px_34px_rgba(8,15,40,0.35)]">
-            <span className="tracking-[0.28em] text-white/80">TX HASH</span>
-            <span className="ml-4 min-w-[8ch] text-right font-mono text-[0.6rem] tracking-[0.42em] text-white">
-              {shortenHash(purchase.hash, 8, 6)}
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-[0.9rem] border border-white/20 bg-white/10 px-3 py-1 text-[0.52rem] font-semibold uppercase tracking-[0.24em] text-white/70 shadow-[0_12px_34px_rgba(8,15,40,0.35)]">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="tracking-[0.28em] text-white/80">TX HASH</span>
+              {purchase.method === "XRP" && purchase.hash && (
+                <Badge
+                  tone="success"
+                  className="px-2 py-0.5 text-[0.46rem] tracking-[0.32em] text-emerald-100"
+                >
+                  ON-CHAIN · XRPL TESTNET
+                </Badge>
+              )}
+            </div>
+            {purchase.hash ? (
+              <a
+                href={`https://testnet.xrpl.org/transactions/${purchase.hash}`}
+                target="_blank"
+                rel="noreferrer"
+                className="ml-auto min-w-[8ch] text-right font-mono text-[0.6rem] tracking-[0.42em] text-white hover:text-emerald-200"
+              >
+                {shortenHash(purchase.hash, 8, 6)}
+              </a>
+            ) : (
+              <span className="ml-auto min-w-[8ch] text-right font-mono text-[0.6rem] tracking-[0.42em] text-white/60">
+                Pending
+              </span>
+            )}
           </div>
         </article>
       ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AppShell } from "@/components/drp/app-shell";
 import { PassportCard } from "@/components/drp/passport-card";
 import { TabSwitcher } from "@/components/ui/tab-switcher";
@@ -28,11 +28,15 @@ export default function HomePage() {
   const passport = usePassportData();
   const { purchases } = usePurchases();
   const pins = useXrpStores();
+  const totalFromReceipts = useMemo(
+    () => purchases.reduce((sum, purchase) => sum + purchase.amount, 0),
+    [purchases],
+  );
 
   return (
     <AppShell>
       <div className="space-y-5">
-        <PassportCard stats={passport} />
+        <PassportCard stats={passport} totalSpendOverride={totalFromReceipts} />
         <TabSwitcher options={tabs} value={activeTab} onChange={setActiveTab} />
         {activeTab === "timeline" && <PurchaseList purchases={purchases} />}
         {activeTab === "map" && (

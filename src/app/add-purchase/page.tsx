@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { usePurchases } from "@/lib/hooks";
 import type { Purchase } from "@/lib/mockData";
 import { Badge } from "@/components/ui/badge";
+import { shortenHash } from "@/lib/utils";
 
 const categories = ["Food", "Transport", "Culture", "Groceries", "Wellness", "Fashion"] as const;
 const methods = ["XRP", "Card", "Cash"] as const;
@@ -28,36 +29,112 @@ export default function AddPurchasePage() {
     time: "12:00",
   });
   const [aiMessage, setAiMessage] = useState<string | null>(null);
-  const [hash, setHash] = useState(generateHash());
+  const [hash, setHash] = useState<string | null>(null);
+  const [txState, setTxState] = useState<"idle" | "sending" | "error">("idle");
+  const [isSaving, setIsSaving] = useState(false);
+  const [confirmation, setConfirmation] = useState<string | null>(null);
+  const [lastSavedMethod, setLastSavedMethod] = useState<Purchase["method"] | null>(null);
   const recent = useMemo(() => purchases.slice(0, 2), [purchases]);
+  const explorerUrl = hash ? `https://testnet.xrpl.org/transactions/${hash}` : null;
+  const shortHash = hash ? shortenHash(hash, 6, 6) : null;
+  const statusMeta = (() => {
+    if (txState === "sending") {
+      return {
+        label: "Sending payment to XRPL Testnet…",
+        dotClass: "bg-amber-400/80 animate-pulse",
+        showShortHash: false,
+      };
+    }
+    if (txState === "error") {
+      return {
+        label: "XRPL testnet unavailable · placeholder hash",
+        dotClass: "bg-rose-400",
+        showShortHash: false,
+      };
+    }
+    if (hash) {
+      return {
+        label: "On-chain on XRPL Testnet",
+        dotClass: "bg-emerald-400",
+        showShortHash: true,
+      };
+    }
+    return {
+      label: "Awaiting XRPL submission",
+      dotClass: "bg-white/50",
+      showShortHash: false,
+    };
+  })();
+  const previewBoxText =
+    txState === "sending" ? "Sending payment to XRPL Testnet…" : hash ?? "Awaiting XRPL submission";
+  const saveLabel = form.method === "XRP" ? "Save XRPL receipt" : "Save receipt";
 
   const update = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!form.store || !form.amount) return;
-    const payload: Purchase = {
-      id: `draft-${Date.now()}`,
-      store: form.store,
-      city: form.city,
-      country: "France",
-      category: form.category,
-      amount: parseFloat(form.amount),
-      currency: form.currency,
-      vat: parseFloat(form.vat),
-      method: form.method,
-      memo: form.memo,
-      date: form.date,
-      time: form.time,
-      isXrp: form.method === "XRP",
-      icon: "✨",
-      hash,
-    };
-    addPurchase(payload);
-    setHash(generateHash());
-    setForm((prev) => ({ ...prev, store: "", amount: "", memo: "" }));
+    if (!form.store || !form.amount || isSaving) return;
+    setConfirmation(null);
+    setLastSavedMethod(null);
+    setIsSaving(true);
+
+    try {
+      let resolvedHash = hash ?? generateHash();
+
+      if (form.method === "XRP") {
+        setTxState("sending");
+        try {
+          const response = await fetch("/api/xrpl/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              amount: form.amount,
+              memo: `DRP:${form.store}:${form.amount}`,
+            }),
+          });
+          if (!response.ok) {
+            throw new Error("XRPL send failed");
+          }
+          const payload = await response.json();
+          resolvedHash = payload.hash;
+          setTxState("idle");
+        } catch (error) {
+          console.error("XRPL send error", error);
+          setTxState("error");
+          resolvedHash = generateHash();
+        }
+      } else {
+        resolvedHash = generateHash();
+        setTxState("idle");
+      }
+
+      setHash(resolvedHash);
+      const payload: Purchase = {
+        id: `draft-${Date.now()}`,
+        store: form.store,
+        city: form.city,
+        country: "France",
+        category: form.category,
+        amount: parseFloat(form.amount),
+        currency: form.currency,
+        vat: parseFloat(form.vat),
+        method: form.method,
+        memo: form.memo,
+        date: form.date,
+        time: form.time,
+        isXrp: form.method === "XRP",
+        icon: "✨",
+        hash: resolvedHash,
+      };
+      addPurchase(payload);
+      setConfirmation(form.method === "XRP" ? "XRPL receipt saved to passport" : "Receipt saved");
+      setLastSavedMethod(form.method);
+      setForm((prev) => ({ ...prev, store: "", amount: "", memo: "" }));
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleSuggest = () => {
@@ -117,13 +194,45 @@ export default function AddPurchasePage() {
           <p className="text-sm text-white/70">
             Demo hash updates locally. In production this will link to the XRPL explorer with proofs.
           </p>
-          <div className="rounded-2xl border border-white/15 bg-black/30 px-4 py-3 font-mono text-xs text-white/70">
-            {hash}
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-3 text-[0.58rem] font-semibold uppercase tracking-[0.3em] text-white/70">
+              <div className="flex items-center gap-2">
+                <span className={`h-1.5 w-1.5 rounded-full ${statusMeta.dotClass}`} />
+                <span>{statusMeta.label}</span>
+              </div>
+              {statusMeta.showShortHash && shortHash && (
+                <span className="font-mono text-[0.6rem] tracking-[0.4em] text-white">{shortHash}</span>
+              )}
+            </div>
+            <div className="rounded-2xl border border-white/15 bg-black/30 px-4 py-3 font-mono text-xs text-white/70">
+              {previewBoxText}
+            </div>
+            {txState === "idle" && hash && explorerUrl && (
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full text-xs opacity-70"
+                onClick={() => window.open(explorerUrl, "_blank", "noopener,noreferrer")}
+              >
+                View on XRPL Testnet
+              </Button>
+            )}
+            {confirmation && (
+              <p
+                className={`text-[0.55rem] font-semibold uppercase tracking-[0.3em] ${
+                  lastSavedMethod === "XRP" ? "text-emerald-200" : "text-white/70"
+                }`}
+              >
+                {confirmation}
+              </p>
+            )}
           </div>
         </Section>
 
         <div className="flex flex-col gap-3">
-          <Button type="submit">Save mock receipt</Button>
+          <Button type="submit" disabled={isSaving || txState === "sending"}>
+            {saveLabel}
+          </Button>
           <Button type="button" variant="ghost">
             Save draft
           </Button>
