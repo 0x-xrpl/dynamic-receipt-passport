@@ -14,7 +14,7 @@ export default function PassportPage() {
   const stamps = useStamps();
 
   return (
-    <AppShell heroSubtitle="One NFT boarding pass for the XRPL residency." contextLabel="Passport overview">
+    <AppShell hideHero heroSubtitle="One NFT boarding pass for the XRPL residency." contextLabel="Passport overview">
       <div className="space-y-6">
         <PassportCard stats={passport} />
         <section className="rounded-[2rem] border border-white/15 bg-white/5 p-6">

@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Compass, Home, Map, PlusCircle, ReceiptText } from "lucide-react";
+import { Compass, Home, IdCard, Map, PlusCircle, ReceiptText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/passport", label: "Passport", icon: ReceiptText },
+  { href: "/timeline", label: "Timeline", icon: ReceiptText },
+  { href: "/passport", label: "Passport", icon: IdCard },
   { href: "/add-purchase", label: "Add", icon: PlusCircle },
   { href: "/map", label: "Map", icon: Map },
   { href: "/export", label: "Export", icon: Compass },
@@ -15,6 +16,9 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname();
+  if (pathname === "/") {
+    return null;
+  }
   return (
     <nav className="fixed inset-x-0 bottom-4 z-40 mx-auto w-full max-w-md px-4 sm:px-0">
       <div className="backdrop-card glass-border flex items-center justify-between rounded-3xl px-3 py-2">

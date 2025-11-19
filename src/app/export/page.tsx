@@ -23,7 +23,7 @@ export default function ExportPage() {
   const download = () => alert("CSV export mocked for demo");
 
   return (
-    <AppShell heroSubtitle="Accounting-grade snapshots with XRPL hashes." contextLabel="Export toolkit">
+    <AppShell hideHero heroSubtitle="Accounting-grade snapshots with XRPL hashes." contextLabel="Export toolkit">
       <div className="space-y-5">
         <section className="rounded-[2rem] border border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-6 text-slate-950">
           <p className="text-xs uppercase tracking-[0.35em] text-slate-900/80">Date range</p>

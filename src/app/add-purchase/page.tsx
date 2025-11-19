@@ -143,7 +143,7 @@ export default function AddPurchasePage() {
   };
 
   return (
-    <AppShell heroSubtitle="Smooth XRPL Testnet capture" contextLabel="Add purchase">
+    <AppShell hideHero heroSubtitle="Smooth XRPL Testnet capture" contextLabel="Add purchase">
       <form onSubmit={handleSubmit} className="space-y-5">
         <Section title="Store & Amount">
           <Input placeholder="Store name" value={form.store} onChange={(e) => update("store", e.target.value)} />

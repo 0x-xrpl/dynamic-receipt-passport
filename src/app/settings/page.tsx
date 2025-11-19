@@ -16,7 +16,7 @@ export default function SettingsPage() {
   const [digest, setDigest] = useState(false);
 
   return (
-    <AppShell heroSubtitle="Monochrome controls for future XRPL sync." contextLabel="Preferences">
+    <AppShell hideHero heroSubtitle="Monochrome controls for future XRPL sync." contextLabel="Preferences">
       <div className="space-y-5">
         <Panel title="Theme">
           <Select value={theme} onChange={(e) => setTheme(e.target.value)}>

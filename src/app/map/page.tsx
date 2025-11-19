@@ -9,7 +9,11 @@ export default function MapPage() {
   const pins = useXrpStores();
 
   return (
-    <AppShell heroSubtitle="Track where every XRPL receipt was minted across the journey." contextLabel="Residency map">
+    <AppShell
+      hideHero
+      heroSubtitle="Track where every XRPL receipt was minted across the journey."
+      contextLabel="Residency map"
+    >
       <div className="space-y-4">
         <MapCanvas pins={pins} height={500} />
         <div className="rounded-[1.7rem] border border-white/12 bg-white/5 p-4 text-[0.6rem] uppercase tracking-[0.35em] text-white/55">
