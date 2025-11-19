@@ -326,7 +326,7 @@ Leaflet.js（または Next.js で扱いやすいマップライブラリ）を�
 ### 5-1. フロントエンド
 
 
-- Next.js 14（App Router）
+- Next.js 16（App Router）
 
 - TypeScript
 
@@ -428,11 +428,11 @@ npm run dev
 DRP は Next.js を基盤としているため、ローカル開発環境（npm run dev）でも本番同様の挙動を確認できます。  
 
 
-最終的な公開については、  
+現在のデモ環境は Vercel 上で公開しています：
 
-Next.js プロジェクトの標準的な公開方法として Vercel を利用することを想定しています。  
 
-（他のホスティングサービスでも同等の構成で動作します）  
+- Live demo（Vercel）  
+  https://dynamic-receipt-passport.vercel.app/  
 
 
 Vercel を利用した公開手順  
@@ -440,11 +440,11 @@ Vercel を利用した公開手順
 
 - GitHub アカウントを Vercel と連携する  
 
-- このリポジトリを Vercel 上でインポートする  
+- このリポジトリ（0x-xrpl/dynamic-receipt-passport）を Vercel 上でインポートする  
 
-- インポート後、自動的にビルドとデプロイが実行される  
+- インポート後、自動的にビルドとデプロイが実行される
 
-- 完了後に公開 URL が発行される  
+- 完了後に公開 URL が発行される（上記の Live demo）
 
 
 Next.js の標準設定のままで問題なく動作するため、特別な設定は必要ありません。  
