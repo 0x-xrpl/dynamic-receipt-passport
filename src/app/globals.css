@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -196,4 +197,107 @@ body {
   background: rgba(255, 255, 255, 0.9);
   color: rgba(11, 22, 48, 0.65);
   backdrop-filter: blur(18px);
+}
+
+/* === DRP Aurora Background + Fonts Pack (from HTML) === */
+
+/* Geist（Vercel公式フォント） */
+@font-face {
+  font-family: "Geist";
+  src: url("https://assets.vercel.com/raw/upload/v1662148025/fonts/geist/GeistVF.woff2")
+      format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --violet: #8b5cf6;
+  --violet-soft: rgba(139, 92, 246, 0.2);
+  --slate: #94a3b8;
+  --night: rgba(15, 15, 20, 0.6);
+}
+
+/* ページ全体のベース（必要に応じて調整OK） */
+body {
+  background: #030712;
+  color: #f8fafc;
+}
+
+/* ===== Aurora 背景レイヤー ===== */
+
+.drp-aurora-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  display: block;
+}
+
+.drp-aurora-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(59, 130, 246, 0.4),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 10%,
+      rgba(236, 72, 153, 0.35),
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(2, 6, 23, 0) 0%,
+      rgba(2, 6, 23, 0.9) 65%
+    );
+}
+
+.drp-aurora-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(255, 255, 255, 0.08),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 15% 70%,
+      rgba(14, 165, 233, 0.12),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 60%,
+      rgba(99, 102, 241, 0.15),
+      transparent 50%
+    );
+}
+
+.drp-aurora-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='rgba(255,255,255,0.02)'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  mix-blend-mode: screen;
+}
+
+/* ===== フォントユーティリティ ===== */
+
+.font-geist {
+  font-family: "Geist", system-ui, -apple-system, sans-serif;
+}
+
+.font-manrope {
+  font-family: "Manrope", "Geist", system-ui, -apple-system, sans-serif;
+}
+
+.font-code {
+  font-family: "Source Code Pro", "Geist", monospace;
 }
