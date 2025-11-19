@@ -4,8 +4,6 @@
 XRPL × AI Hackathon OSAKA 2025
 
 Live demo (Vercel)
-
-
 https://dynamic-receipt-passport.vercel.app/
 
 
