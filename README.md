@@ -37,7 +37,7 @@ Dynamic Receipt Passport（以下 DRP）は、XRP が利用できる世界中の
 
 - 使用技術:
 
-  - Next.js 14 (App Router) / TypeScript
+  - Next.js 16 (App Router / Turbopack 対応、async params 仕様に対応)
 
   - Tailwind CSS
 
@@ -136,7 +136,10 @@ XRPL Hackathon OSAKA 2025 では、XRPL Commons によるパリ 3 ヶ月のプ�
 
 3. 月末や帰国時に、CSV/PDF で会計データをエクスポートし、経費精算や確定申告に利用する  
 
-4. Dynamic NFT パスポート上で、自分の滞在履歴や訪問都市数などが「成長」として視覚化される  
+4. Dynamic NFT パスポート上で、自分の滞在履歴や訪問都市数などが「成長」として視覚化される
+
+5. 購入登録時に XRPL 送金（Testnet）を選択すると、その場でトランザクションが送信され、パスポートにオンチェーン記録として反映されます。送信後は Explorer での確認リンクも利用可能です。
+
 
 
 ### 2-3. 世界への展開
@@ -216,6 +219,20 @@ Beginner Track の観点からは、
 
 
 といった「XRPL の基本的な利用」を丁寧に実装することを目標としています。
+
+【実装部分詳細】
+本アプリは、Next.js 16 の App Router 新仕様にあわせて XRPL 連携部分を実装しています。
+
+- `/api/xrpl/tx/[hash]`  
+  Next.js 16 の async params を用いてトランザクション取得を安定化  
+  → Testnet Explorer へのリンクも自動生成
+
+- `/api/xrpl/send`  
+  XRPL Testnet wrapper（src/lib/xrpl/server.ts）を通じて送信  
+  → 送金後に TX Hash が UI に反映され、Receipt に保存される
+
+- Add Purchase 画面  
+  Live XRPL Status Row／送信ロック／Explorer リンクを搭載し、初心者でも XRPL フローが理解しやすい構成にしています。
 
 
 ### 3-2. Dynamic NFT（成長ロジック）
@@ -298,7 +315,8 @@ Leaflet.js（または Next.js で扱いやすいマップライブラリ）を�
 
 - Add Purchase  
 
-  新しい購入情報の登録フォーム
+  XRPL 送金モードでは、TX Hash プレビュー、送信ロック、Live Status Row、Explorer への直接リンクなど XRPL デモに必要な UI を統合
+
 
 - Passport  
 
@@ -468,8 +486,12 @@ dynamic-receipt-passport/
 
   │   ├── components/     # UI コンポーネント  
 
-  │   ├── lib/            # XRPL ラッパー、AI ヘルパーなど  
+v │   ├── lib/xrpl/server.ts  # XRPL Testnet wrapper（送信・取得）
 
+v │   ├── app/api/xrpl/send/  # 送金 API（Next.js 16対応）
+
+v │   ├── app/api/xrpl/tx/[hash]/ # トランザクション参照 API
+  
   │   └── styles/         # Tailwind / グローバルスタイル  
 
   ├── package.json  
@@ -500,9 +522,9 @@ Dynamic NFT パスポートという概念のプロトタイプ
 今後、以下のような拡張により、Deep Track / Main Track レベルへの発展が可能だと考えています。
 
 
-XRPL NFT 機能との直接連携（メタデータの同期）  
+XRPL NFT 機能との直接連携（メタデータの同期） 
 
-AMM や Hooks を用いたロイヤリティ・ポイント処理の自動化 
+XRPL EVM / Xahau の登場により、Hooks や AMM を統合したロイヤリティ処理の自動化
 
 
 店舗側ダッシュボードの実装（スタンプ設計・キャンペーン設定） 
