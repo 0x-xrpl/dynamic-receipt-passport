@@ -22,8 +22,6 @@ xrpl-hackathon-base/
 
 ## 🚀 セットアップ（ローカル PC）
 
-**⚠️注意：ChatGPT Codex 上では npm を実行しないでください。ローカル PC でのみ実行してください。**
-
 ```bash
 # リポジトリをクローン
 git clone <your-repo-url> xrpl-hackathon-base
@@ -72,7 +70,6 @@ npm run check:tx -- <TX_HASH>
 ---
 
 ## 💾 Codex からファイルをダウンロードする手順
-ChatGPT Codex の Web インターフェースで、左側に「Files」一覧だけがあり、`More options` や `Download ZIP` が表示されない場合の手順です。
 
 ### `package.json` を保存する
 1. 左側の「Files」リストで **package.json** をクリックして開く。
