@@ -1,7 +1,10 @@
 # Dynamic Receipt Passport (DRP)
 
 
-XRPL × AI Hackathon OSAKA 2025 
+XRPL × AI Hackathon OSAKA 2025
+
+Live demo (Vercel):
+https://dynamic-receipt-passport.vercel.app/
 
 
 Dynamic Receipt Passport（以下 DRP）は、XRP が利用できる世界中の都市での「レシート・スタンプ・旅の軌跡・会計データ」を、1 枚の Dynamic NFT パスポートに統合して管理することを目的とした Web アプリケーションです。
