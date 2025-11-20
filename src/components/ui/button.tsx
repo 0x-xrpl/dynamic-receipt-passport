@@ -14,7 +14,8 @@ const variants = {
     "bg-white/5 text-white border-white/15 hover:bg-white/10 hover:border-white/25 shadow-[0_10px_35px_rgba(4,5,15,0.4)]",
   ghost:
     "bg-transparent border border-white/10 text-white/70 hover:text-white hover:bg-white/5 hover:border-white/25",
-  outline: "bg-transparent border-white/20 text-white hover:border-white/50 hover:bg-white/5",
+  outline:
+    "bg-transparent border-white/20 text-white hover:border-white/50 hover:bg-white/5",
 } as const;
 
 const sizes = {
@@ -45,21 +46,31 @@ export function Button({
     baseStyles,
     variants[variant],
     sizes[size],
-    subtleGlow && "relative before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-cyan-400/40 before:blur-2xl",
+    subtleGlow &&
+      "relative before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-cyan-400/40 before:blur-2xl",
     className,
   );
 
+  // ----------- 修正版ここから -----------
   if (asChild) {
     if (!isValidElement(children)) {
-      throw new Error("Button with asChild requires a valid React element child.");
+      throw new Error(
+        "Button with asChild requires a valid React element child.",
+      );
     }
 
-    const child = children as ReactElement;
-    return cloneElement(child, {
-      ...props,
-      className: cn(child.props.className, composed),
-    });
+    const child = children as ReactElement<any>;
+
+    // child が className を持っていれば使う
+    const existingClassName =
+      (child.props as any)?.className ?? "";
+
+    return cloneElement(child as any, {
+      ...(props as any),
+      className: cn(existingClassName, composed),
+    } as any);
   }
+  // ----------- 修正版ここまで -----------
 
   return (
     <button type={type} className={composed} {...props}>
