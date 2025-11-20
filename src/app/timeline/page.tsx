@@ -40,7 +40,7 @@ export default function TimelinePage() {
         <TabSwitcher options={tabs} value={activeTab} onChange={setActiveTab} />
         {activeTab === "timeline" && <PurchaseList purchases={purchases} />}
         {activeTab === "map" && (
-          <section className="space-y-4">
+          <section className="lift-hover space-y-4 rounded-[1.9rem] border border-white/12 bg-white/5 p-5 shadow-[0_24px_60px_rgba(3,3,12,0.6)] backdrop-blur-2xl">
             <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/60">
               <span>● Purchases</span>
               <span>○ XRP stores</span>
@@ -48,10 +48,16 @@ export default function TimelinePage() {
                 Live map
               </Badge>
             </div>
-            <MapCanvas pins={pins} height={360} />
+            <div className="overflow-hidden rounded-[1.5rem] border border-white/10">
+              <MapCanvas pins={pins} height={360} />
+            </div>
           </section>
         )}
-        {activeTab === "stats" && <StatsPanels />}
+        {activeTab === "stats" && (
+          <section className="lift-hover rounded-[1.9rem] border border-white/12 bg-white/5 p-5 shadow-[0_24px_60px_rgba(3,3,12,0.6)] backdrop-blur-2xl">
+            <StatsPanels />
+          </section>
+        )}
       </div>
     </AppShell>
   );

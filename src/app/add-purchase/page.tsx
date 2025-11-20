@@ -230,7 +230,12 @@ export default function AddPurchasePage() {
         </Section>
 
         <div className="flex flex-col gap-3">
-          <Button type="submit" disabled={isSaving || txState === "sending"}>
+          <Button
+            type="submit"
+            variant="ghost"
+            className="border border-white/20 text-white hover:bg-white/10"
+            disabled={isSaving || txState === "sending"}
+          >
             {saveLabel}
           </Button>
           <Button type="button" variant="ghost">

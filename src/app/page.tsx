@@ -30,16 +30,16 @@ export default function HomePage() {
   const toggleWalletPanel = () => setActivePanel((prev) => (prev === "wallet" ? null : "wallet"));
 
   return (
-    <div className="flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center px-4 py-12">
-      <div className="flex w-[90vw] max-w-[420px] flex-col">
-        <section className="shine relative overflow-hidden rounded-[1.9rem] border border-white/15 bg-white/5 px-7 py-12 text-white sm:px-9 sm:py-14">
-          <div className="relative z-10 flex min-h-[28rem] flex-col space-y-6">
+    <div className="flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center px-5 py-12 sm:py-16">
+      <div className="flex w-[90vw] max-w-[440px] flex-col">
+        <section className="lift-hover shine relative overflow-hidden rounded-[2.2rem] border border-white/12 bg-white/5 px-7 py-12 text-white shadow-[0_25px_70px_rgba(3,3,12,0.55)] backdrop-blur-2xl sm:px-9 sm:py-14">
+          <div className="relative z-10 flex min-h-[28rem] flex-col space-y-7">
             <div className="space-y-5">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.42em] text-white/70">{heroCopy.eyebrow}</p>
-              <h1 className="text-[clamp(1.9rem,6vw,2.9rem)] font-bold leading-snug tracking-tight">
+              <p className="label-eyebrow text-white/70">{heroCopy.eyebrow}</p>
+              <h1 className="font-mono text-[clamp(2.2rem,6vw,3rem)] font-normal leading-[1.15] tracking-tight text-white">
                 {heroCopy.title}
               </h1>
-              <p className="text-base font-medium leading-relaxed text-white/80">{heroCopy.subtitle}</p>
+              <p className="text-base font-medium leading-relaxed text-white/75">{heroCopy.subtitle}</p>
             </div>
             <div className="mt-auto space-y-3 pt-4">
               <Button
@@ -68,7 +68,7 @@ export default function HomePage() {
               </Button>
             </div>
             {activePanel && (
-              <div className="space-y-4 rounded-[1.4rem] border border-white/12 bg-white/5 p-4 shadow-inner">
+              <div className="space-y-4 rounded-[1.6rem] border border-white/15 bg-white/5 p-4 shadow-inner backdrop-blur-xl">
                 {activePanel === "email" && (
                   <div className="space-y-3">
                     <div className="flex gap-2">

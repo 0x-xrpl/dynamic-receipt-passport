@@ -27,12 +27,12 @@ export function AppShell({
   return (
     <div className="flex flex-col gap-7 pb-6">
       {!hideHero && (
-        <header className="shine relative overflow-hidden rounded-[1.9rem] border border-white/15 bg-white/5 px-7 py-6 text-white sm:px-10 sm:py-9">
+        <header className="lift-hover shine relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/5 px-7 py-7 text-white shadow-[0_25px_70px_rgba(3,3,12,0.55)] backdrop-blur-2xl sm:px-10 sm:py-9">
           <div className="relative z-10 space-y-4 sm:space-y-5">
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.42em] text-white/70">
+            <p className="label-eyebrow text-white/70">
               {eyebrow}
             </p>
-            <h1 className="text-[clamp(1.9rem,4vw,2.9rem)] font-bold leading-snug tracking-tight">
+            <h1 className="font-mono text-[clamp(2rem,4vw,3rem)] font-normal leading-snug tracking-tight">
               {heroTitle}
             </h1>
             {heroSubtitle && (
@@ -40,11 +40,7 @@ export function AppShell({
                 {heroSubtitle}
               </p>
             )}
-            {contextLabel && (
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.38em] text-white/60">
-                {contextLabel}
-              </p>
-            )}
+            {contextLabel && <p className="label-eyebrow text-white/60">{contextLabel}</p>}
             <div className="flex flex-wrap gap-2 sm:gap-3">
               <Button
                 asChild

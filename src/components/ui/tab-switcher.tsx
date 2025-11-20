@@ -17,7 +17,7 @@ type TabSwitcherProps = {
 
 export function TabSwitcher({ options, value, onChange }: TabSwitcherProps) {
   return (
-    <div className="flex rounded-[2.75rem] border border-white/20 bg-white/10 px-2.5 py-3 shadow-[0_28px_60px_rgba(5,10,25,0.35)]">
+    <div className="flex rounded-[1.8rem] border border-white/20 bg-white/10 px-2 py-2.5 shadow-[0_28px_60px_rgba(5,10,25,0.35)]">
       {options.map((option) => {
         const isActive = value === option.value;
         return (
@@ -25,7 +25,7 @@ export function TabSwitcher({ options, value, onChange }: TabSwitcherProps) {
             key={option.value}
             onClick={() => onChange(option.value)}
             className={cn(
-              "flex-1 rounded-[2rem] px-7 py-3.5 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-white/75 transition focus-visible:outline-none",
+              "flex-1 rounded-[1.2rem] px-6 py-3 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-white/75 transition focus-visible:outline-none",
               isActive
                 ? "bg-white/80 text-slate-900 shadow-[0_16px_34px_rgba(8,12,35,0.45)]"
                 : "hover:bg-white/15",

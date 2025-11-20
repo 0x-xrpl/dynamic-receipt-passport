@@ -1,43 +1,65 @@
 import type { Purchase } from "@/lib/mockData";
 import { formatCurrency, shortenHash } from "@/lib/utils";
-import { Waves } from "lucide-react";
+import {
+  Waves,
+  Soup,
+  Bus,
+  Palette,
+  ShoppingBag,
+  HeartPulse,
+  Shirt,
+  Landmark,
+  type LucideIcon,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+
+const categoryIcons: Record<Purchase["category"], LucideIcon> = {
+  Food: Soup,
+  Transport: Bus,
+  Culture: Palette,
+  Groceries: ShoppingBag,
+  Wellness: HeartPulse,
+  Fashion: Shirt,
+};
 
 export function PurchaseList({ purchases }: { purchases: Purchase[] }) {
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-3">
       {purchases.map((purchase) => (
         <article
           key={purchase.id}
-          className="flex flex-col gap-3 rounded-[1.25rem] border border-white/12 bg-white/5 px-4 py-3 text-white shadow-[0_16px_34px_rgba(2,6,23,0.45)] sm:px-5 sm:py-4"
+          className="lift-hover flex flex-col gap-3 rounded-[1.35rem] border border-white/12 bg-white/5 px-4 py-4 text-white shadow-[0_18px_38px_rgba(2,6,23,0.45)] backdrop-blur-xl sm:px-5 sm:py-5"
         >
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-lg sm:text-xl">
-                {purchase.icon}
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/15 bg-white/5 text-lg text-white/90 sm:text-xl">
+                {(() => {
+                  const Icon = categoryIcons[purchase.category] ?? Landmark;
+                  return <Icon className="h-4.5 w-4.5 text-white" />;
+                })()}
               </div>
               <div>
-                <h3 className="text-base font-semibold uppercase tracking-[0.2em] sm:text-lg">
+                <h3 className="font-mono text-base uppercase tracking-[0.18em] text-white sm:text-lg">
                   {purchase.store}
                 </h3>
-                <p className="text-[0.62rem] font-medium uppercase tracking-[0.28em] text-white/65">
+                <p className="text-[0.62rem] font-medium uppercase tracking-[0.28em] text-white/80">
                   {purchase.city} · {purchase.category}
                 </p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-lg font-semibold tracking-[0.05em] text-white sm:text-xl">
+              <p className="font-mono text-lg text-white sm:text-xl">
                 {formatCurrency(purchase.amount, purchase.currency)}
               </p>
-              <p className="text-[0.68rem] font-medium text-white/65">{purchase.date}</p>
+              <p className="text-[0.68rem] font-medium text-white/80">{purchase.date}</p>
             </div>
           </div>
-          <div className="flex flex-wrap gap-2 text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-white/65">
+          <div className="flex flex-wrap gap-2 text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-white">
             <span>VAT {purchase.vat.toFixed(1)}%</span>
             <span>{purchase.method}</span>
             <span>{purchase.time}</span>
             {purchase.isXrp && (
-              <span className="flex items-center gap-1 text-[#ffb347]">
+              <span className="flex items-center gap-1 text-[var(--accent)]">
                 <Waves className="h-3 w-3" /> XRP
               </span>
             )}

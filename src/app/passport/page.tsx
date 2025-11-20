@@ -17,7 +17,7 @@ export default function PassportPage() {
     <AppShell hideHero heroSubtitle="One NFT boarding pass for the XRPL residency." contextLabel="Passport overview">
       <div className="space-y-6">
         <PassportCard stats={passport} />
-        <section className="rounded-[2rem] border border-white/15 bg-white/5 p-6">
+        <section className="lift-hover rounded-[2rem] border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_rgba(3,3,12,0.6)] backdrop-blur-2xl">
           <div className="flex items-center justify-between">
             <p className="text-xs uppercase tracking-[0.35em] text-white/60">Milestones</p>
             <Button asChild variant="ghost" size="sm">
@@ -30,7 +30,7 @@ export default function PassportPage() {
             <MilestonesPanel />
           </div>
         </section>
-        <section className="rounded-[2rem] border border-white/15 bg-white/5 p-6">
+        <section className="lift-hover rounded-[2rem] border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_rgba(3,3,12,0.6)] backdrop-blur-2xl">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Stamp cards</p>
           <div className="mt-4">
             <StampGrid stamps={stamps} />

@@ -5,14 +5,16 @@ import type { ButtonHTMLAttributes, ReactElement, ReactNode } from "react";
 import { cloneElement, isValidElement } from "react";
 
 const baseStyles =
-  "inline-flex items-center justify-center gap-1.5 rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 disabled:cursor-not-allowed disabled:opacity-60";
+  "lift-hover inline-flex items-center justify-center gap-1.5 rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/45 disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants = {
   primary:
-    "bg-[radial-gradient(circle_at_top,_#ffb347,_#ff823f)] text-slate-950 border-transparent shadow-[0_20px_45px_rgba(255,131,63,0.35)] hover:-translate-y-0.5 hover:shadow-[0_30px_60px_rgba(255,131,63,0.45)]",
-  secondary: "bg-white/5 text-white border-white/10 hover:bg-white/10",
-  ghost: "bg-transparent border border-white/10 text-white/70 hover:text-white hover:bg-white/5",
-  outline: "bg-transparent border-white/20 text-white hover:border-white/50",
+    "bg-[radial-gradient(circle_at_top_left,_rgba(139,92,246,0.95),_rgba(48,17,75,0.9))] text-slate-950 border-transparent shadow-[0_18px_40px_rgba(139,92,246,0.45)] hover:shadow-[0_30px_60px_rgba(139,92,246,0.55)]",
+  secondary:
+    "bg-white/5 text-white border-white/15 hover:bg-white/10 hover:border-white/25 shadow-[0_10px_35px_rgba(4,5,15,0.4)]",
+  ghost:
+    "bg-transparent border border-white/10 text-white/70 hover:text-white hover:bg-white/5 hover:border-white/25",
+  outline: "bg-transparent border-white/20 text-white hover:border-white/50 hover:bg-white/5",
 } as const;
 
 const sizes = {
@@ -52,7 +54,7 @@ export function Button({
       throw new Error("Button with asChild requires a valid React element child.");
     }
 
-    const child = children as ReactElement<any>;
+    const child = children as ReactElement;
     return cloneElement(child, {
       ...props,
       className: cn(child.props.className, composed),

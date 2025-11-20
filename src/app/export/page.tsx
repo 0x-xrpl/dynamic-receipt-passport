@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type ChangeEvent } from "react";
 import { AppShell } from "@/components/drp/app-shell";
 import { usePurchases } from "@/lib/hooks";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,8 @@ export default function ExportPage() {
   const { purchases } = usePurchases();
   const [from, setFrom] = useState("2025-02-01");
   const [to, setTo] = useState("2025-03-15");
+  const [ocrResult, setOcrResult] = useState<string | null>(null);
+  const ocrInputRef = useRef<HTMLInputElement>(null);
 
   const data = useMemo(() => {
     const rows = purchases.filter((purchase) => purchase.date >= from && purchase.date <= to);
@@ -21,24 +23,55 @@ export default function ExportPage() {
   }, [from, to, purchases]);
 
   const download = () => alert("CSV export mocked for demo");
+  const requestOcr = () => ocrInputRef.current?.click();
+  const handleOcrUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setOcrResult(`Scanned ${file.name}. OCR text available for review.`);
+    event.target.value = "";
+  };
 
   return (
     <AppShell hideHero heroSubtitle="Accounting-grade snapshots with XRPL hashes." contextLabel="Export toolkit">
       <div className="space-y-5">
-        <section className="rounded-[2rem] border border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-6 text-slate-950">
-          <p className="text-xs uppercase tracking-[0.35em] text-slate-900/80">Date range</p>
+        <section className="rounded-[2rem] border border-white/15 bg-gradient-to-br from-white/15 to-transparent p-6 text-white backdrop-blur-2xl">
+          <p className="text-xs uppercase tracking-[0.35em] text-white/80">Date range</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
             <Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
             <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} />
-            <div className="flex gap-3">
-              <Button onClick={download} className="flex-1">
-                Download CSV
-              </Button>
-              <Button variant="ghost" className="flex-1 border border-slate-900/20 text-slate-900">
-                Print view
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <Button
+                  onClick={download}
+                  variant="ghost"
+                  className="flex-1 border border-white/25 text-white hover:bg-white/10"
+                >
+                  Download CSV
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="flex-1 border border-white/25 text-white hover:bg-white/10"
+                >
+                  Print view
+                </Button>
+              </div>
+              <Button
+                variant="ghost"
+                className="border border-white/25 text-white hover:bg-white/10"
+                onClick={requestOcr}
+              >
+                Scan receipt (OCR)
               </Button>
             </div>
+            <input
+              ref={ocrInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleOcrUpload}
+            />
           </div>
+          {ocrResult && <p className="mt-3 text-xs text-white/70">{ocrResult}</p>}
         </section>
 
         <section className="grid gap-4 sm:grid-cols-2">
