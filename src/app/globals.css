@@ -19,7 +19,7 @@
   --type-card-title: clamp(1.15rem, 3vw, 1.5rem);
   --type-body: 1rem;
   --type-label: 0.68rem;
-  --type-metric: 1.18rem;
+  --type-metric: clamp(1rem, 2vw, 1.2rem);
   --line-tight: 1.2;
   --line-snug: 1.35;
   --line-relaxed: 1.6;
@@ -152,7 +152,7 @@ body {
   .type-metric {
     font-family: var(--font-mono);
     font-size: var(--type-metric);
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: var(--track-mono);
     line-height: var(--line-tight);
     color: #fff;
