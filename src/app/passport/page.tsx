@@ -8,10 +8,14 @@ import { StampGrid } from "@/components/drp/stamp-grid";
 import { MilestonesPanel } from "@/components/drp/milestones";
 import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
+import { useWallet } from "@/context/wallet-context";
 
 export default function PassportPage() {
   const passport = usePassportData();
   const stamps = useStamps();
+  const { address, connected } = useWallet();
+  const connectedAddressLabel =
+    address && address.length > 10 ? `${address.slice(0, 10)}...${address.slice(-6)}` : address;
   const rebateRate = 0.05;
   const rebateAmount = passport.totalSpend * rebateRate;
   const rebateTarget = 6000 * rebateRate; // e.g., spend target €6k for full rebate milestone
@@ -31,6 +35,12 @@ export default function PassportPage() {
   return (
     <AppShell hideHero heroSubtitle="One NFT boarding pass for the XRPL residency." contextLabel="Passport overview">
       <div className="space-y-6">
+        {connected && connectedAddressLabel && (
+          <p className="text-xs uppercase tracking-[0.3em] text-white/70">
+            Connected wallet ·{" "}
+            <span className="font-mono text-[0.82rem] text-white/90 tracking-tight">{connectedAddressLabel}</span>
+          </p>
+        )}
         <div className="mx-auto w-full max-w-[680px]">
           <PassportCard stats={passport} variant="compact" size="card" headerLabel="Dynamic Receipt Passport" />
         </div>
