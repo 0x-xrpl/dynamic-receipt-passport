@@ -318,6 +318,7 @@ Next.js 標準設定で動作 → 特別な設定不要。
 
 ---
 
+<pre>
 ## 8. ディレクトリ構成（例）
 
 dynamic-receipt-passport/
@@ -346,6 +347,7 @@ dynamic-receipt-passport/
   └── README.md                 # 本ファイル
 
 ---
+</pre>
 
 ## 9. 今後の拡張と発展
 
