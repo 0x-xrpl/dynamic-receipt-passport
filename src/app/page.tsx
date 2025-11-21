@@ -33,6 +33,10 @@ export default function HomePage() {
     await connect();
   };
 
+  const handleMintClick = () => {
+    router.push("/passport/new");
+  };
+
   const connectedAddressLabel =
     address && address.length > 10 ? `${address.slice(0, 6)}...${address.slice(-4)}` : address;
 
@@ -85,7 +89,15 @@ export default function HomePage() {
                 variant="secondary"
                 onClick={handleWalletConnect}
               >
-                {connected ? "CONNECTED ✓" : "Connect Wallet (Testnet)"}
+                {connected ? "CONNECTED ✓" : "CONNECT WALLET (TESTNET)"}
+              </Button>
+              <Button
+                size="lg"
+                className="w-full text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
+                variant="secondary"
+                onClick={handleMintClick}
+              >
+                Mint My Passport (Testnet)
               </Button>
               {connected && connectedAddressLabel && (
                 <p className="text-center text-xs font-medium tracking-[0.12em] text-white/70">

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useWallet } from "@/context/wallet-context";
 import { loadMintedPassport, saveMintedPassport } from "@/lib/passport-store";
-import { buildMintPayload } from "@/lib/xrpl";
+import { buildMintPayload, type MintedPassport } from "@/lib/xrpl";
 import { shortenHash } from "@/lib/utils";
 
 export default function PassportMintPage() {
@@ -18,7 +18,7 @@ export default function PassportMintPage() {
   const [passportName, setPassportName] = useState("");
   const [minting, setMinting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [existingPassport, setExistingPassport] = useState(loadMintedPassport());
+  const [existingPassport, setExistingPassport] = useState<MintedPassport | null>(null);
 
   useEffect(() => {
     const stored = loadMintedPassport();
@@ -82,6 +82,7 @@ export default function PassportMintPage() {
       heroSubtitle="XRPL Testnet · GemWallet required. Mint a LVL1 collectible that anchors your receipts journey."
       eyebrow="XRPL TESTNET FLOW"
       contextLabel="NFTokenMint · LVL1"
+      hideHero
       actions={
         existingPassport && (
           <Button asChild variant="ghost" size="sm" className="px-4 py-2">
@@ -90,24 +91,7 @@ export default function PassportMintPage() {
         )
       }
     >
-      <div className="space-y-5">
-        {existingPassport && (
-          <div className="lift-hover shine relative overflow-hidden rounded-[1.6rem] border border-white/15 bg-white/5 p-4 text-white shadow-[0_16px_50px_rgba(4,6,16,0.6)] backdrop-blur-2xl sm:p-5">
-            <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
-              <div className="space-y-1">
-                <p className="text-[0.65rem] uppercase tracking-[0.32em] text-white/60">Passport stored</p>
-                <p className="font-mono text-sm text-white/80">
-                  {existingPassport.name} · {shortenHash(existingPassport.nfTokenId, 6, 6)}
-                </p>
-              </div>
-              <Button asChild size="sm" variant="secondary">
-                <Link href="/passport/my">Open my passport</Link>
-              </Button>
-            </div>
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.16),_transparent_60%)]" />
-          </div>
-        )}
-
+      <div className="mx-auto w-[90vw] max-w-[440px] space-y-6">
         <div className="lift-hover shine relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/5 p-6 text-white shadow-[0_22px_60px_rgba(4,6,16,0.65)] backdrop-blur-2xl sm:p-8">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(255,255,255,0.14),transparent_45%)]" />
           <div className="relative z-10 space-y-6">
@@ -150,18 +134,20 @@ export default function PassportMintPage() {
                 type="button"
                 variant="secondary"
                 className="flex-1 text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
+                size="lg"
                 onClick={() => connect()}
-                disabled={minting}
               >
-                {connected ? "Reconnect Wallet" : "Connect Wallet (Testnet)"}
+                {connected ? "CONNECTED ✓" : "CONNECT WALLET (TESTNET)"}
               </Button>
               <Button
                 type="button"
+                size="lg"
+                variant="secondary"
                 className="flex-1 text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
                 onClick={handleMint}
                 disabled={minting}
               >
-                {minting ? "Minting…" : "Mint My Passport"}
+                {minting ? "MINTING…" : "MINT MY PASSPORT"}
               </Button>
             </div>
 
@@ -170,7 +156,23 @@ export default function PassportMintPage() {
             </p>
           </div>
         </div>
+
+        <footer className="mx-auto flex w-full max-w-[440px] items-center justify-center">
+          <Button
+            asChild
+            size="lg"
+            variant="secondary"
+            className="w-full text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
+          >
+            <Link href="/">HOME</Link>
+          </Button>
+        </footer>
       </div>
+      <style jsx global>{`
+        nav.fixed.inset-x-0.bottom-4 {
+          display: none !important;
+        }
+      `}</style>
     </AppShell>
   );
 }

@@ -3,6 +3,7 @@
 import type { PassportStats } from "@/lib/mockData";
 import { monthlySpend } from "@/lib/mockData";
 import { formatCurrency } from "@/lib/utils";
+import { buildTestnetAccountUrl } from "@/lib/xrpl";
 import { useState } from "react";
 
 type PassportCardProps = {
@@ -31,7 +32,7 @@ export function PassportCard({
   enableWidgetSelector = false,
   headerLabel = "Status",
 }: PassportCardProps) {
-  const walletExplorerUrl = `https://testnet.xrpl.org/transactions/${stats.wallet}`;
+  const walletExplorerUrl = buildTestnetAccountUrl(stats.wallet);
   const showFull = variant === "full";
   const sizeClass =
     size === "card"
@@ -111,7 +112,7 @@ export function PassportCard({
           title={stats.wallet}
           className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[0.55rem] uppercase tracking-[0.28em] text-white transition hover:border-cyan-200/70 hover:bg-cyan-200/10 hover:text-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/50"
         >
-          <span>Wallet hash</span>
+          <span>WALLET HASH</span>
           <span aria-hidden>↗</span>
         </a>
       </div>

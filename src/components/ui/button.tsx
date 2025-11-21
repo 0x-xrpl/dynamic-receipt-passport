@@ -32,6 +32,24 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
 };
 
+type ButtonClassOptions = {
+  variant?: keyof typeof variants;
+  size?: keyof typeof sizes;
+  subtleGlow?: boolean;
+  className?: string;
+};
+
+export function buttonClasses({ variant = "primary", size = "md", subtleGlow, className }: ButtonClassOptions) {
+  return cn(
+    baseStyles,
+    variants[variant],
+    sizes[size],
+    subtleGlow &&
+      "relative before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-cyan-400/40 before:blur-2xl",
+    className,
+  );
+}
+
 export function Button({
   className,
   variant = "primary",
@@ -42,14 +60,7 @@ export function Button({
   type = "button",
   ...props
 }: ButtonProps) {
-  const composed = cn(
-    baseStyles,
-    variants[variant],
-    sizes[size],
-    subtleGlow &&
-      "relative before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-cyan-400/40 before:blur-2xl",
-    className,
-  );
+  const composed = buttonClasses({ variant, size, subtleGlow, className });
 
   // ----------- 修正版ここから -----------
   if (asChild) {
@@ -65,10 +76,13 @@ export function Button({
     const existingClassName =
       (child.props as any)?.className ?? "";
 
-    return cloneElement(child as any, {
-      ...(props as any),
-      className: cn(existingClassName, composed),
-    } as any);
+    return cloneElement(
+      child as any,
+      {
+        ...(props as any),
+        className: cn(existingClassName, composed),
+      } as any,
+    );
   }
   // ----------- 修正版ここまで -----------
 

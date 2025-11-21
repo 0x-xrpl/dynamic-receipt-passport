@@ -16,7 +16,7 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname();
-  if (pathname === "/") {
+  if (pathname === "/" || pathname.startsWith("/passport/my")) {
     return null;
   }
   return (

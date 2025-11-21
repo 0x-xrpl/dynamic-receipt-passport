@@ -19,6 +19,10 @@ export function buildTestnetTxUrl(txHash: string) {
   return `${TESTNET_EXPLORER_BASE}/${txHash}`;
 }
 
+export function buildTestnetAccountUrl(address: string) {
+  return `https://testnet.xrpl.org/accounts/${address}`;
+}
+
 export function buildMintPayload({
   uri = DEFAULT_MINT_URI,
   taxon = DEFAULT_TAXON,
