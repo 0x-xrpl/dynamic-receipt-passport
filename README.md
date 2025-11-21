@@ -320,26 +320,30 @@ Next.js 標準設定で動作 → 特別な設定不要。
 
 ## 8. ディレクトリ構成（例）
 
-dynamic-receipt-passport/  
-├ legacy-xrpl/  
-├ public/  
-├ src/  
-│ ├ app/  
-│ │ ├ passport/  
-│ │ ├ api/xrpl/send/  
-│ │ └ api/xrpl/tx/[hash]/  
-│ ├ components/  
-│ ├ context/  
-│ ├ lib/  
-│ │ ├ xrpl/server.ts  
-│ │ ├ wallet.ts  
-│ │ ├ passport-store.ts  
-│ │ └ xrpl.ts  
-│ └ styles/  
-├ package.json  
-├ tsconfig.json  
-├ next.config.ts  
-└ README.md  
+dynamic-receipt-passport/
+  ├── legacy-xrpl/              # XRPL Node.js 基礎スクリプト（サンプル）
+  ├── public/                   # 画像・アイコンなどの静的ファイル
+  ├── src/
+  │   ├── app/                  # Next.js App Router 用エントリ
+  │   │   ├── passport/         # パスポート関連ページ
+  │   │   ├── api/
+  │   │   │   └── xrpl/
+  │   │   │       ├── send/     # 送金 API（Next.js 16対応）
+  │   │   │       └── tx/[hash]/# トランザクション参照 API
+  │   │   └── page.tsx          # Home / Timeline
+  │   ├── components/           # UI コンポーネント
+  │   ├── context/              # WalletProvider など
+  │   ├── lib/
+  │   │   ├── xrpl/
+  │   │   │   └── server.ts     # XRPL Testnet wrapper（送信・取得）
+  │   │   ├── wallet.ts         # GemWallet 連携ヘルパー
+  │   │   ├── passport-store.ts # LVL1 パスポート保存ロジック
+  │   │   └── xrpl.ts           # Explorer URL 生成など
+  │   └── styles/               # Tailwind / グローバルスタイル
+  ├── package.json
+  ├── tsconfig.json
+  ├── next.config.ts
+  └── README.md                 # 本ファイル
 
 ---
 
