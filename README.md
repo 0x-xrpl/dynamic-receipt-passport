@@ -27,17 +27,17 @@ Dynamic Receipt Passport（以下 DRP）は、XRP が利用できる世界中の
 プロダクト本体のコードを壊さずに安全にセットアップするための最小限の手順です。node_modules などの大容量ディレクトリは Git 管理外 (.gitignore) になっているため、以下のコマンドを順番に実行してください。
 
 
-# 1. 最新のコードを取得
+1. 最新のコードを取得
 git clone <your-repo-url> drp
 cd drp
 
-# 2. 既存の node_modules を削除（もし含まれていた場合）
+2. 既存の node_modules を削除（もし含まれていた場合）
 rm -rf node_modules
 
-# 3. 依存関係をクリーンに再インストール
+3. 依存関係をクリーンに再インストール
 npm install
 
-# 4. 動作確認
+4. 動作確認
 npm run dev
 
 
