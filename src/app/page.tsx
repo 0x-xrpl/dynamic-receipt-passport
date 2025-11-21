@@ -31,7 +31,7 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center px-5 py-12 text-center sm:py-16">
-      <div className="flex w-[92vw] max-w-[540px] flex-col items-center">
+      <div className="flex w-[90vw] max-w-[440px] flex-col items-center">
         <section className="lift-hover shine relative w-full overflow-hidden rounded-[2.2rem] border border-white/12 bg-white/5 px-7 py-12 text-white shadow-[0_25px_70px_rgba(3,3,12,0.55)] backdrop-blur-2xl sm:px-9 sm:py-14">
           <div className="relative z-10 flex min-h-[28rem] flex-col items-center space-y-7 text-center">
             <div className="space-y-5 w-full">
