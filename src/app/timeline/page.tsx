@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/drp/app-shell";
 import { PassportCard } from "@/components/drp/passport-card";
 import { TabSwitcher } from "@/components/ui/tab-switcher";
@@ -9,6 +9,7 @@ import { StatsPanels } from "@/components/drp/stats-panels";
 import { usePassportData, usePurchases, useXrpStores } from "@/lib/hooks";
 import dynamic from "next/dynamic";
 import { Badge } from "@/components/ui/badge";
+import { useWallet } from "@/context/wallet-context";
 
 const MapCanvas = dynamic(
   () => import("@/components/drp/map-canvas").then((mod) => mod.MapCanvas),
@@ -28,10 +29,17 @@ export default function TimelinePage() {
   const passport = usePassportData();
   const { purchases } = usePurchases();
   const pins = useXrpStores();
+  const { address, connected } = useWallet();
   const totalFromReceipts = useMemo(
     () => purchases.reduce((sum, purchase) => sum + purchase.amount, 0),
     [purchases],
   );
+
+  useEffect(() => {
+    if (connected && address) {
+      console.log("[GemWallet] Connected address:", address);
+    }
+  }, [connected, address]);
 
   return (
     <AppShell hideHero>

@@ -8,10 +8,14 @@ import { StampGrid } from "@/components/drp/stamp-grid";
 import { MilestonesPanel } from "@/components/drp/milestones";
 import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
+import { useWallet } from "@/context/wallet-context";
 
 export default function PassportPage() {
   const passport = usePassportData();
   const stamps = useStamps();
+  const { address, connected } = useWallet();
+  const connectedAddressLabel =
+    address && address.length > 10 ? `${address.slice(0, 10)}...${address.slice(-6)}` : address;
   const rebateRate = 0.05;
   const rebateAmount = passport.totalSpend * rebateRate;
   const rebateTarget = 6000 * rebateRate; // e.g., spend target €6k for full rebate milestone

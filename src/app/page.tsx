@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { START_SEEN_STORAGE_KEY } from "@/components/drp/start-redirect-guard";
 import { Input } from "@/components/ui/input";
+import { useWallet } from "@/context/wallet-context";
 
 const heroCopy = {
   eyebrow: "XRPL COMMONS",
@@ -14,10 +15,10 @@ const heroCopy = {
 
 export default function HomePage() {
   const router = useRouter();
-  const [activePanel, setActivePanel] = useState<"email" | "wallet" | null>(null);
+  const [activePanel, setActivePanel] = useState<"email" | null>(null);
   const [emailMode, setEmailMode] = useState<"signin" | "signup">("signin");
   const [emailState, setEmailState] = useState({ email: "", password: "", confirm: "" });
-  const [walletAddress, setWalletAddress] = useState("");
+  const { connected, address, connect } = useWallet();
 
   const handleDemoClick = (href: string) => {
     if (typeof window !== "undefined") {
@@ -27,7 +28,17 @@ export default function HomePage() {
   };
 
   const toggleEmailPanel = () => setActivePanel((prev) => (prev === "email" ? null : "email"));
-  const toggleWalletPanel = () => setActivePanel((prev) => (prev === "wallet" ? null : "wallet"));
+
+  const handleWalletConnect = async () => {
+    await connect();
+  };
+
+  const handleMintClick = () => {
+    router.push("/passport/new");
+  };
+
+  const connectedAddressLabel =
+    address && address.length > 10 ? `${address.slice(0, 6)}...${address.slice(-4)}` : address;
 
   return (
     <div className="flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center px-5 py-12 text-center sm:py-16">
@@ -76,10 +87,23 @@ export default function HomePage() {
                 size="lg"
                 className="w-full text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
                 variant="secondary"
-                onClick={toggleWalletPanel}
+                onClick={handleWalletConnect}
               >
-                Connect Wallet (Testnet)
+                {connected ? "CONNECTED ✓" : "CONNECT WALLET (TESTNET)"}
               </Button>
+              <Button
+                size="lg"
+                className="w-full text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
+                variant="secondary"
+                onClick={handleMintClick}
+              >
+                Mint My Passport (Testnet)
+              </Button>
+              {connected && connectedAddressLabel && (
+                <p className="text-center text-xs font-medium tracking-[0.12em] text-white/70">
+                  Connected: {connectedAddressLabel}
+                </p>
+              )}
             </div>
             {activePanel && (
               <div className="space-y-4 rounded-[1.6rem] border border-white/15 bg-white/5 p-4 text-center shadow-inner backdrop-blur-xl">
@@ -132,24 +156,6 @@ export default function HomePage() {
                         {emailMode === "signup" ? "Create account" : "Continue"}
                       </Button>
                     </div>
-                  </div>
-                )}
-                {activePanel === "wallet" && (
-                  <div className="space-y-3 rounded-[1.1rem] border border-white/10 bg-white/5 p-3">
-                    <div className="space-y-1">
-                      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white/70">
-                        XRPL Testnet Wallet Address
-                      </p>
-                      <p className="text-xs text-white/60">Enter your testnet wallet address (r…).</p>
-                    </div>
-                    <Input
-                      placeholder="rXXXXXXXXXXXXXXXXXXXX"
-                      value={walletAddress}
-                      onChange={(e) => setWalletAddress(e.target.value)}
-                    />
-                    <Button className="w-full" variant="secondary">
-                      Connect
-                    </Button>
                   </div>
                 )}
               </div>
