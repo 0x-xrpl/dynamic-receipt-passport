@@ -9,8 +9,8 @@ import { formatCurrency } from "@/lib/utils";
 
 export default function ExportPage() {
   const { purchases } = usePurchases();
-  const [from, setFrom] = useState("2025-02-01");
-  const [to, setTo] = useState("2025-03-15");
+  const [from, setFrom] = useState("2025-07-01");
+  const [to, setTo] = useState("2025-11-22");
   const [ocrResult, setOcrResult] = useState<string | null>(null);
   const ocrInputRef = useRef<HTMLInputElement>(null);
 
@@ -86,7 +86,7 @@ export default function ExportPage() {
             <p className="text-xs uppercase tracking-[0.35em] text-white/60">Ledger preview</p>
             <span className="text-xs text-white/60">{data.rows.length} rows</span>
           </div>
-          <div className="overflow-auto rounded-2xl border border-white/10">
+          <div className="ledger-scroll overflow-auto rounded-2xl border border-white/10">
             <table className="min-w-full text-left text-xs uppercase tracking-[0.2em] text-white/60">
               <thead className="bg-white/5">
                 <tr>
@@ -116,6 +116,27 @@ export default function ExportPage() {
           </div>
         </section>
       </div>
+      <style jsx>{`
+        .ledger-scroll::-webkit-scrollbar {
+          height: 10px;
+        }
+        .ledger-scroll::-webkit-scrollbar-track {
+          background: rgba(33, 45, 66, 0.45);
+          border-radius: 9999px;
+        }
+        .ledger-scroll::-webkit-scrollbar-thumb {
+          background: rgba(124, 148, 180, 0.7);
+          border-radius: 9999px;
+          border: 1px solid rgba(12, 17, 28, 0.35);
+        }
+        .ledger-scroll::-webkit-scrollbar-thumb:hover {
+          background: rgba(150, 178, 210, 0.9);
+        }
+        .ledger-scroll {
+          scrollbar-color: rgba(124, 148, 180, 0.7) rgba(33, 45, 66, 0.45);
+          scrollbar-width: thin;
+        }
+      `}</style>
     </AppShell>
   );
 }

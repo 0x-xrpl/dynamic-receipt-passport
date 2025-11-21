@@ -21,7 +21,7 @@ export type Purchase = {
   amount: number;
   currency: string;
   vat: number;
-  method: "XRP" | "Card" | "Cash";
+  method: "XRP" | "Card";
   memo: string;
   date: string;
   time: string;
@@ -38,6 +38,9 @@ export type StampCard = {
   goal: number;
   benefit: string;
   unlocked: boolean;
+  rebateAmount?: number;
+  rebateTarget?: number;
+  rebateRate?: number;
 };
 
 export type StorePin = {
@@ -67,7 +70,7 @@ export const mockPassport: PassportStats = {
   citiesVisited: 4,
   storesCount: 27,
   xpProgress: 0.68,
-  owner: "Mina Ansel",
+  owner: "0x-xrpl",
   wallet: "rU2R...8X9Q",
   favoriteCity: "Paris",
   totalPurchases: 64,
@@ -87,7 +90,7 @@ export const mockPurchases: Purchase[] = [
     vat: 12,
     method: "XRP",
     memo: "Immersive Monet evening",
-    date: "2025-03-12",
+    date: "2025-11-12",
     time: "19:40",
     isXrp: true,
     icon: "🎨",
@@ -104,7 +107,7 @@ export const mockPurchases: Purchase[] = [
     vat: 2.4,
     method: "Card",
     memo: "Residency breakfast",
-    date: "2025-03-11",
+    date: "2025-11-11",
     time: "08:10",
     isXrp: false,
     icon: "🥐",
@@ -121,7 +124,7 @@ export const mockPurchases: Purchase[] = [
     vat: 49,
     method: "XRP",
     memo: "Resident merch + hardware wallet",
-    date: "2025-03-09",
+    date: "2025-11-09",
     time: "14:25",
     isXrp: true,
     icon: "🧥",
@@ -138,7 +141,7 @@ export const mockPurchases: Purchase[] = [
     vat: 6.5,
     method: "Card",
     memo: "eBike day rental",
-    date: "2025-03-03",
+    date: "2025-11-03",
     time: "11:03",
     isXrp: false,
     icon: "🚲",
@@ -155,7 +158,7 @@ export const mockPurchases: Purchase[] = [
     vat: 7.8,
     method: "XRP",
     memo: "XR art meetup ticket",
-    date: "2025-02-28",
+    date: "2025-10-28",
     time: "20:20",
     isXrp: true,
     icon: "🌀",
@@ -170,9 +173,9 @@ export const mockPurchases: Purchase[] = [
     amount: 58.4,
     currency: "EUR",
     vat: 3.6,
-    method: "Cash",
+    method: "Card",
     memo: "Weekly produce haul",
-    date: "2025-02-26",
+    date: "2025-10-26",
     time: "10:15",
     isXrp: false,
     icon: "🥬",
@@ -188,11 +191,11 @@ export const categoryStats: CategoryStat[] = [
 ];
 
 export const monthlySpend = [
-  { month: "Nov", amount: 1120 },
-  { month: "Dec", amount: 980 },
-  { month: "Jan", amount: 1260 },
-  { month: "Feb", amount: 1380 },
-  { month: "Mar", amount: 920 },
+  { month: "Jul", amount: 1120 },
+  { month: "Aug", amount: 980 },
+  { month: "Sep", amount: 1260 },
+  { month: "Oct", amount: 1380 },
+  { month: "Nov", amount: 920 },
 ];
 
 export const topCities = [
