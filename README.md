@@ -1,4 +1,4 @@
-REEDME オリジナル　DRP  # Dynamic Receipt Passport (DRP)
+# Dynamic Receipt Passport (DRP)
 
 
 XRPL × AI Hackathon OSAKA 2025
