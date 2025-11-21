@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { shortenHash } from "@/lib/utils";
 
 const categories = ["Food", "Transport", "Culture", "Groceries", "Wellness", "Fashion"] as const;
-const methods = ["XRP", "Card", "Cash"] as const;
+const methods = ["XRP", "Card"] as const;
 
 export default function AddPurchasePage() {
   const { purchases, addPurchase } = usePurchases();

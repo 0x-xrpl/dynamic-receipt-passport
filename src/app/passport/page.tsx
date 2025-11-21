@@ -12,11 +12,28 @@ import { MapPin } from "lucide-react";
 export default function PassportPage() {
   const passport = usePassportData();
   const stamps = useStamps();
+  const rebateRate = 0.05;
+  const rebateAmount = passport.totalSpend * rebateRate;
+  const rebateTarget = 6000 * rebateRate; // e.g., spend target €6k for full rebate milestone
+  const rebateCard = {
+    id: "rebate-xrp",
+    store: "XRP Rebate",
+    city: "Global",
+    progress: 0,
+    goal: 1,
+    benefit: "Projected XRP rebate",
+    unlocked: rebateAmount >= rebateTarget,
+    rebateAmount,
+    rebateTarget,
+    rebateRate,
+  } as const;
 
   return (
     <AppShell hideHero heroSubtitle="One NFT boarding pass for the XRPL residency." contextLabel="Passport overview">
       <div className="space-y-6">
-        <PassportCard stats={passport} />
+        <div className="mx-auto w-full max-w-[680px]">
+          <PassportCard stats={passport} variant="compact" size="card" headerLabel="Dynamic Receipt Passport" />
+        </div>
         <section className="lift-hover rounded-[2rem] border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_rgba(3,3,12,0.6)] backdrop-blur-2xl">
           <div className="flex items-center justify-between">
             <p className="text-xs uppercase tracking-[0.35em] text-white/60">Milestones</p>
@@ -33,7 +50,7 @@ export default function PassportPage() {
         <section className="lift-hover rounded-[2rem] border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_rgba(3,3,12,0.6)] backdrop-blur-2xl">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Stamp cards</p>
           <div className="mt-4">
-            <StampGrid stamps={stamps} />
+            <StampGrid stamps={[...stamps, rebateCard]} />
           </div>
         </section>
       </div>

@@ -18,7 +18,7 @@ export function StatsPanels() {
                   <span>{stat.label}</span>
                   <span className="font-mono text-white/60">{percent}%</span>
                 </div>
-                <p className="mt-3 font-mono text-xl text-[var(--accent)]">
+                <p className="mt-3 font-mono text-xl text-white">
                   {formatCurrency(stat.amount)}
                 </p>
                 <div className="mt-3 h-1.5 rounded-full bg-white/10">
@@ -63,7 +63,7 @@ export function StatsPanels() {
                 </span>
                 <span className="text-xs font-semibold uppercase tracking-[0.32em]">{city.label}</span>
               </div>
-              <p className="font-mono text-sm text-[var(--accent)]">{formatCurrency(city.amount)}</p>
+              <p className="font-mono text-sm text-white">{formatCurrency(city.amount)}</p>
             </div>
           ))}
         </div>

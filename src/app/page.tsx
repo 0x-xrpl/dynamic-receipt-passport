@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input";
 
 const heroCopy = {
   eyebrow: "XRPL COMMONS",
-  title: "Dynamic Receipt Passport",
-  subtitle: "Receipts · Journeys · Loyalty — Powered by XRPL.",
+  titleLines: ["Dynamic", "Receipt", "Passport"],
+  subtitleLines: ["From Receipts to Loyalty", "One Unified Layer powered by XRPL"],
 };
 
 export default function HomePage() {
@@ -30,23 +30,37 @@ export default function HomePage() {
   const toggleWalletPanel = () => setActivePanel((prev) => (prev === "wallet" ? null : "wallet"));
 
   return (
-    <div className="flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center px-5 py-12 sm:py-16">
-      <div className="flex w-[90vw] max-w-[440px] flex-col">
-        <section className="lift-hover shine relative overflow-hidden rounded-[2.2rem] border border-white/12 bg-white/5 px-7 py-12 text-white shadow-[0_25px_70px_rgba(3,3,12,0.55)] backdrop-blur-2xl sm:px-9 sm:py-14">
-          <div className="relative z-10 flex min-h-[28rem] flex-col space-y-7">
-            <div className="space-y-5">
-              <p className="label-eyebrow text-white/70">{heroCopy.eyebrow}</p>
-              <h1 className="font-mono text-[clamp(2.2rem,6vw,3rem)] font-normal leading-[1.15] tracking-tight text-white">
-                {heroCopy.title}
+    <div className="flex min-h-[calc(100vh-5rem)] w-full flex-col items-center justify-center px-5 py-12 text-center sm:py-16">
+      <div className="flex w-[92vw] max-w-[540px] flex-col items-center">
+        <section className="lift-hover shine relative w-full overflow-hidden rounded-[2.2rem] border border-white/12 bg-white/5 px-7 py-12 text-white shadow-[0_25px_70px_rgba(3,3,12,0.55)] backdrop-blur-2xl sm:px-9 sm:py-14">
+          <div className="relative z-10 flex min-h-[28rem] flex-col items-center space-y-7 text-center">
+            <div className="space-y-5 w-full">
+              <p className="label-eyebrow no-line text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.35)] text-[0.85rem] tracking-[0.22em]">
+                {heroCopy.eyebrow}
+              </p>
+              <h1 className="font-mono text-[3.3rem] font-normal leading-[1.1] tracking-tight text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)]">
+                {heroCopy.titleLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
               </h1>
-              <p className="text-base font-medium leading-relaxed text-white/75">{heroCopy.subtitle}</p>
+              <div className="space-y-2 text-white w-full">
+                <p className="text-[1.05rem] font-medium leading-relaxed tracking-[0.08em] drop-shadow-[0_3px_10px_rgba(0,0,0,0.45)]">
+                  From Receipts to Loyalty
+                  <br />
+                  One Unified Layer
+                  <br />
+                  Powered by XRPL
+                </p>
+              </div>
             </div>
             <div className="mt-auto space-y-3 pt-4">
               <Button
                 size="lg"
                 className="w-full text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
                 variant="secondary"
-                onClick={() => handleDemoClick("/timeline")}
+                onClick={() => handleDemoClick("/passport")}
               >
                 Demo Mode (Test Login)
               </Button>
@@ -68,7 +82,7 @@ export default function HomePage() {
               </Button>
             </div>
             {activePanel && (
-              <div className="space-y-4 rounded-[1.6rem] border border-white/15 bg-white/5 p-4 shadow-inner backdrop-blur-xl">
+              <div className="space-y-4 rounded-[1.6rem] border border-white/15 bg-white/5 p-4 text-center shadow-inner backdrop-blur-xl">
                 {activePanel === "email" && (
                   <div className="space-y-3">
                     <div className="flex gap-2">
@@ -110,7 +124,13 @@ export default function HomePage() {
                           onChange={(e) => setEmailState((prev) => ({ ...prev, confirm: e.target.value }))}
                         />
                       )}
-                      <Button className="w-full">{emailMode === "signup" ? "Create account" : "Continue"}</Button>
+                      <Button
+                        className="w-full text-[0.78rem] font-semibold uppercase tracking-[0.18em]"
+                        size="lg"
+                        variant="secondary"
+                      >
+                        {emailMode === "signup" ? "Create account" : "Continue"}
+                      </Button>
                     </div>
                   </div>
                 )}
@@ -120,7 +140,7 @@ export default function HomePage() {
                       <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white/70">
                         XRPL Testnet Wallet Address
                       </p>
-                      <p className="text-xs text-white/60">Enter your testnet wallet address (r…) · Connection flow coming soon.</p>
+                      <p className="text-xs text-white/60">Enter your testnet wallet address (r…).</p>
                     </div>
                     <Input
                       placeholder="rXXXXXXXXXXXXXXXXXXXX"

@@ -36,7 +36,14 @@ export default function TimelinePage() {
   return (
     <AppShell hideHero>
       <div className="space-y-5">
-        <PassportCard stats={passport} totalSpendOverride={totalFromReceipts} />
+        <PassportCard
+          stats={passport}
+          totalSpendOverride={totalFromReceipts}
+          variant="full"
+          hideIdentity
+          size="compactCard"
+          enableWidgetSelector
+        />
         <TabSwitcher options={tabs} value={activeTab} onChange={setActiveTab} />
         {activeTab === "timeline" && <PurchaseList purchases={purchases} />}
         {activeTab === "map" && (
@@ -48,8 +55,8 @@ export default function TimelinePage() {
                 Live map
               </Badge>
             </div>
-            <div className="overflow-hidden rounded-[1.5rem] border border-white/10">
-              <MapCanvas pins={pins} height={360} />
+            <div className="aspect-[1.586/1] overflow-hidden rounded-[1.5rem] border border-white/10">
+              <MapCanvas pins={pins} height="100%" />
             </div>
           </section>
         )}

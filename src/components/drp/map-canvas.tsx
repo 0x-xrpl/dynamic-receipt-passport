@@ -13,7 +13,13 @@ type LeafletComponents = {
 
 const parisPosition: [number, number] = [48.8566, 2.3522];
 
-export function MapCanvas({ pins, height = 320 }: { pins: StorePin[]; height?: number }) {
+export function MapCanvas({
+  pins,
+  height = "100%",
+}: {
+  pins: StorePin[];
+  height?: number | string;
+}) {
   const [leafletComponents, setLeafletComponents] = useState<LeafletComponents | null>(null);
 
   useEffect(() => {
@@ -41,7 +47,7 @@ export function MapCanvas({ pins, height = 320 }: { pins: StorePin[]; height?: n
   if (!leafletComponents) {
     return (
       <div
-        className="relative flex h-[320px] w-full items-center justify-center overflow-hidden rounded-[1.5rem] border border-white/25 bg-gradient-to-br from-[#f7f9ff]/90 via-[#eef2ff]/95 to-[#dee7ff]/90 p-3 text-xs uppercase tracking-[0.3em] text-slate-500 shadow-[0_30px_80px_rgba(12,18,43,0.35)]"
+        className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[1.5rem] border border-white/25 bg-gradient-to-br from-[#f7f9ff]/90 via-[#eef2ff]/95 to-[#dee7ff]/90 p-3 text-xs uppercase tracking-[0.3em] text-slate-500 shadow-[0_30px_80px_rgba(12,18,43,0.35)]"
         style={{ height }}
       >
         Loading residency map...
@@ -52,7 +58,7 @@ export function MapCanvas({ pins, height = 320 }: { pins: StorePin[]; height?: n
   const { MapContainer, TileLayer, CircleMarker, Popup } = leafletComponents;
 
   return (
-    <div className="relative overflow-hidden rounded-[1.5rem] border border-white/25 bg-gradient-to-br from-[#f7f9ff]/90 via-[#eef2ff]/95 to-[#dee7ff]/90 p-3 shadow-[0_30px_80px_rgba(12,18,43,0.35)]">
+    <div className="relative h-full overflow-hidden rounded-[1.5rem] border border-white/25 bg-gradient-to-br from-[#f7f9ff]/90 via-[#eef2ff]/95 to-[#dee7ff]/90 p-3 shadow-[0_30px_80px_rgba(12,18,43,0.35)]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_55%_10%,rgba(150,182,255,0.35),transparent_65%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(165deg,rgba(255,186,162,0.25),rgba(150,206,255,0.22),transparent)] opacity-70 mix-blend-screen" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_80%,rgba(255,255,255,0.45),transparent_60%)] opacity-80" />
